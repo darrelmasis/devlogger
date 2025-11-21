@@ -9,7 +9,8 @@ export const LoggerProvider = ({ children }) => {
 
   const addLog = (level, message) => {
     if (!isProd || level === 'force') {
-      console[level === 'log' ? 'log' : level](message)
+      const consoleMethod = level === 'force' || level === 'log' ? 'log' : level
+      console[consoleMethod](message)
       setLogs(prev => [...prev, { level, message }])
     }
   }

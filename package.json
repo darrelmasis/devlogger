@@ -1,7 +1,7 @@
 {
   "name": "@dmasis/logger",
   "private": false,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Librería React ligera para logging visual en desarrollo con panel flotante",
   "type": "module",
   "main": "./dist/logger.cjs",
@@ -46,6 +46,7 @@
     "react-dom": ">=16.8.0"
   },
   "dependencies": {
+    "@dmasis/logger": "^0.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
