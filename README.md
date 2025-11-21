@@ -1,16 +1,134 @@
-# React + Vite
+# Logger
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Una librería React ligera para logging visual en desarrollo. Muestra logs en tiempo real en un panel flotante y se desactiva automáticamente en producción.
 
-Currently, two official plugins are available:
+## 🚀 Instalación
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm install @darelmasis/logger
+```
 
-## React Compiler
+## 📖 Uso
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+### 1. Configuración Básica
 
-## Expanding the ESLint configuration
+Envuelve tu aplicación con `LoggerProvider` y agrega el componente `LoggerDisplay`:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```jsx
+import { LoggerProvider, LoggerDisplay } from '@darelmasis/logger'
+
+function App() {
+  return (
+    <LoggerProvider>
+      <YourApp />
+      <LoggerDisplay />
+    </LoggerProvider>
+  )
+}
+```
+
+### 2. Logging en Componentes
+
+Usa el hook `useLogger` para acceder a las funciones de logging:
+
+```jsx
+import { useLogger } from '@darelmasis/logger'
+
+function MyComponent() {
+  const { log } = useLogger()
+
+  const handleAction = () => {
+    log('Mensaje simple')
+    log.info('Acción ejecutada correctamente')
+    log.warn('Advertencia: Esto podría causar problemas')
+    log.error('Error al procesar datos')
+    log.force('Este mensaje se muestra incluso en producción')
+  }
+
+  return <button onClick={handleAction}>Ejecutar</button>
+}
+```
+
+## 🎯 API
+
+### `LoggerProvider`
+
+Componente proveedor que debe envolver tu aplicación.
+
+**Props:** `children` (ReactNode)
+
+### `LoggerDisplay`
+
+Componente visual que muestra los logs en un panel flotante en la esquina inferior derecha.
+
+**Características:**
+- Panel flotante con fondo semi-transparente
+- Scroll automático
+- Colores diferenciados por nivel de log
+- Solo visible en desarrollo (a menos que uses `force`)
+
+### `useLogger()`
+
+Hook que retorna un objeto con las siguientes propiedades:
+
+#### `log(...args)`
+Función principal que puede ser llamada directamente para registrar mensajes simples.
+
+```jsx
+log('Usuario conectado')
+log('Valor:', value, 'Estado:', status)
+```
+
+#### `log.info(message)`
+Registra un mensaje informativo (verde).
+
+#### `log.warn(message)`
+Registra una advertencia (naranja).
+
+#### `log.error(message)`
+Registra un error (rojo).
+
+#### `log.force(message)`
+Registra un mensaje que se muestra **incluso en producción** (blanco).
+
+#### `log.env`
+Retorna el entorno actual: `'development'` o `'production'`.
+
+## 🔧 Detección de Entorno
+
+La librería detecta automáticamente el entorno usando:
+
+1. Variable `VITE_APP_ENV` (si está definida)
+2. Variable `import.meta.env.MODE` de Vite
+3. Hostname del navegador (`localhost`/`127.0.0.1` = development)
+4. Por defecto: `development`
+
+## 📦 Exports
+
+```javascript
+export { LoggerProvider, LoggerDisplay, useLogger }
+```
+
+## 🛠️ Desarrollo
+
+```bash
+# Instalar dependencias
+npm install
+
+# Desarrollo
+npm run dev
+
+# Build
+npm run build
+
+# Lint
+npm run lint
+```
+
+## 📄 Licencia
+
+MIT
+
+## 🤝 Contribuciones
+
+Las contribuciones son bienvenidas. Por favor, abre un issue o PR.
