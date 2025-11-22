@@ -10,6 +10,7 @@ Una solución moderna y elegante para debugging en React que combina logging en 
 ## ✨ Características
 
 - 🎨 **Panel visual collapsable** - Interfaz flotante no invasiva que se minimiza en un círculo
+- 🌓 **Tema claro/oscuro** - Alterna entre temas con persistencia en localStorage
 - 🔍 **Objetos JSON interactivos** - Expande y colapsa objetos complejos como en DevTools
 - 📋 **Copiar logs** - Copia cualquier log al clipboard con un click
 - 🗑️ **Limpiar logs** - Elimina todos los logs fácilmente
@@ -106,7 +107,8 @@ Componente visual que muestra los logs en un panel flotante interactivo.
   - Verde cuando hay logs (muestra el contador)
   - Click para expandir
 - 📱 **Estado expandido**: Panel completo con:
-  - Header con contador de logs
+  - Header con contador de logs (click en el header para minimizar)
+  - Botón para alternar tema claro/oscuro (☀️/🌙)
   - Botón para limpiar todos los logs (🗑️)
   - Botón para minimizar (−)
   - Área scrolleable con todos los logs
@@ -316,18 +318,6 @@ npm run lint
 # Preview del build
 npm run preview
 ```
-
-## 📊 Comparación con Alternativas
-
-| Característica | @dmasis/logger | console-feed | loglevel | debug |
-|---------------|----------------|--------------|----------|-------|
-| Tamaño (gzipped) | ~5KB | ~70KB | ~2KB | ~3KB |
-| UI Visual | ✅ | ✅ | ❌ | ❌ |
-| Panel Collapsable | ✅ | ❌ | ❌ | ❌ |
-| JSON Interactivo | ✅ | ✅ | ❌ | ❌ |
-| Auto-detección Env | ✅ | ❌ | ❌ | ❌ |
-| React Hooks | ✅ | ❌ | ❌ | ❌ |
-| Copiar Logs | ✅ | ❌ | ❌ | ❌ |
 
 ## 🤝 Contribuciones
 

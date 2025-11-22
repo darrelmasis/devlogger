@@ -108,25 +108,38 @@ export const LoggerDisplay = () => {
 
   return (
     <div className={`logger-panel ${themeClass}`}>
-      <div className={`logger-header ${themeClass}`}>
+      <div 
+        className={`logger-header ${themeClass}`}
+        onClick={() => setIsExpanded(false)}
+        style={{ cursor: 'pointer' }}
+      >
         <span className="logger-title">Logger ({logs.length})</span>
         <div className="logger-buttons">
           <button
-            onClick={() => setIsDarkMode(!isDarkMode)}
+            onClick={(e) => {
+              e.stopPropagation()
+              setIsDarkMode(!isDarkMode)
+            }}
             className={`logger-btn ${themeClass}`}
             title={isDarkMode ? 'Modo claro' : 'Modo oscuro'}
           >
             {isDarkMode ? '☀️' : '🌙'}
           </button>
           <button
-            onClick={() => clearLogs()}
+            onClick={(e) => {
+              e.stopPropagation()
+              clearLogs()
+            }}
             className={`logger-btn logger-btn-clear ${themeClass}`}
             title="Limpiar todos los logs"
           >
             🗑️
           </button>
           <button
-            onClick={() => setIsExpanded(false)}
+            onClick={(e) => {
+              e.stopPropagation()
+              setIsExpanded(false)
+            }}
             className={`logger-btn logger-btn-minimize ${themeClass}`}
             title="Minimizar"
           >
