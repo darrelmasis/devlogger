@@ -1,7 +1,7 @@
 {
   "name": "@dmasis/logger",
   "private": false,
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "Librería React ligera para logging visual en desarrollo con panel flotante",
   "type": "module",
   "main": "./dist/logger.cjs",
