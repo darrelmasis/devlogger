@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useLoggerContext } from '../context/LoggerContext'
 import { log } from '../core/LoggerCore'
 import { JsonView } from './JsonView'
@@ -83,6 +83,7 @@ export const LoggerDisplay = () => {
     const savedTheme = localStorage.getItem('logger-theme')
     return savedTheme ? savedTheme === 'dark' : true
   })
+  const panelRef = useRef(null)
 
   // Don't render in production
   if (isProd) {
@@ -98,6 +99,23 @@ export const LoggerDisplay = () => {
       // Optional: auto-expand logic
     }
   }, [logs.length, isExpanded])
+
+  // Click outside to minimize
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (panelRef.current && !panelRef.current.contains(event.target) && isExpanded) {
+        setIsExpanded(false)
+      }
+    }
+
+    if (isExpanded) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isExpanded])
 
   const hasLogs = logs.length > 0
   const themeClass = isDarkMode ? 'logger-dark' : 'logger-light'
@@ -116,7 +134,7 @@ export const LoggerDisplay = () => {
   }
 
   return (
-    <div className={`logger-panel ${themeClass}`}>
+    <div ref={panelRef} className={`logger-panel ${themeClass}`}>
       <div 
         className={`logger-header ${themeClass}`}
         onClick={() => setIsExpanded(false)}

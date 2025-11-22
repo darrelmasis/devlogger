@@ -116,15 +116,18 @@ $force-light: #6a1b9a;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   
   &.logger-dark {
-    background-color: $dark-bg;
+    background-color: rgba(0, 0, 0, 0.75);
     color: $dark-text;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   &.logger-light {
-    background-color: $light-bg;
+    background-color: rgba(255, 255, 255, 0.85);
     color: $light-text;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(0, 0, 0, 0.15);

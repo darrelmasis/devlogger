@@ -1,8 +1,8 @@
-# devlogger
+# @darelmasis/devlogger
 
 > 🎯 Librería React ligera para logging visual en desarrollo con panel flotante interactivo
 
-[![npm version](https://img.shields.io/npm/v/devlogger.svg)](https://www.npmjs.com/package/devlogger)
+[![npm version](https://img.shields.io/npm/v/@darelmasis/devlogger.svg)](https://www.npmjs.com/package/@darelmasis/devlogger)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Una solución moderna y elegante para debugging en React que combina logging en consola con un panel visual interactivo. Se desactiva automáticamente en producción para mantener tu aplicación limpia.
@@ -10,6 +10,8 @@ Una solución moderna y elegante para debugging en React que combina logging en 
 ## ✨ Características
 
 - 🎨 **Panel visual collapsable** - Interfaz flotante no invasiva que se minimiza en un círculo
+- ✨ **Efecto translúcido** - Panel con backdrop blur para un aspecto moderno y elegante
+- 👆 **Click fuera para minimizar** - Cierra automáticamente el panel al hacer click fuera
 - 🌓 **Tema claro/oscuro** - Alterna entre temas con persistencia en localStorage
 - 🔍 **Objetos JSON interactivos** - Expande y colapsa objetos complejos como en DevTools
 - 📋 **Copiar logs** - Copia cualquier log al clipboard con un click
@@ -22,7 +24,7 @@ Una solución moderna y elegante para debugging en React que combina logging en 
 ## 🚀 Instalación
 
 ```bash
-npm install devlogger
+npm install @darelmasis/devlogger
 ```
 
 ## 📖 Uso Rápido
@@ -32,7 +34,7 @@ npm install devlogger
 Envuelve tu aplicación con `LoggerProvider` y agrega el componente `LoggerDisplay`:
 
 ```jsx
-import { LoggerProvider, LoggerDisplay } from 'devlogger'
+import { LoggerProvider, LoggerDisplay } from '@darelmasis/devlogger'
 
 function App() {
   return (
@@ -49,7 +51,7 @@ function App() {
 Importa `log` directamente y úsalo en **cualquier lugar** - componentes, funciones, servicios, etc.:
 
 ```jsx
-import { log } from 'devlogger'
+import { log } from '@darelmasis/devlogger'
 
 function MyComponent() {
   // ✅ Funciona en el cuerpo del componente (NO causa re-renders)
@@ -342,7 +344,7 @@ MIT © [Darel Masis](https://github.com/darrelmasis)
 
 ## 🔗 Links
 
-- [NPM Package](https://www.npmjs.com/package/devlogger)
+- [NPM Package](https://www.npmjs.com/package/@darelmasis/devlogger)
 - [GitHub Repository](https://github.com/darrelmasis/logger)
 - [Report Issues](https://github.com/darrelmasis/logger/issues)
 
