@@ -29,11 +29,10 @@ npm install @dmasis/logger
 
 ### 1. Configuración Básica
 
-Envuelve tu aplicación con `LoggerProvider`, agrega el componente `LoggerDisplay`, e **importa los estilos CSS**:
+Envuelve tu aplicación con `LoggerProvider` y agrega el componente `LoggerDisplay`:
 
 ```jsx
 import { LoggerProvider, LoggerDisplay } from '@dmasis/logger'
-import '@dmasis/logger/dist/logger.css' // ⚠️ Importante: Importar estilos
 
 function App() {
   return (
