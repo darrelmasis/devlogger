@@ -1,8 +1,8 @@
-# @dmasis/logger
+# devlogger
 
 > 🎯 Librería React ligera para logging visual en desarrollo con panel flotante interactivo
 
-[![npm version](https://img.shields.io/npm/v/@dmasis/logger.svg)](https://www.npmjs.com/package/@dmasis/logger)
+[![npm version](https://img.shields.io/npm/v/devlogger.svg)](https://www.npmjs.com/package/devlogger)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Una solución moderna y elegante para debugging en React que combina logging en consola con un panel visual interactivo. Se desactiva automáticamente en producción para mantener tu aplicación limpia.
@@ -22,7 +22,7 @@ Una solución moderna y elegante para debugging en React que combina logging en 
 ## 🚀 Instalación
 
 ```bash
-npm install @dmasis/logger
+npm install devlogger
 ```
 
 ## 📖 Uso Rápido
@@ -32,7 +32,7 @@ npm install @dmasis/logger
 Envuelve tu aplicación con `LoggerProvider` y agrega el componente `LoggerDisplay`:
 
 ```jsx
-import { LoggerProvider, LoggerDisplay } from '@dmasis/logger'
+import { LoggerProvider, LoggerDisplay } from 'devlogger'
 
 function App() {
   return (
@@ -49,7 +49,7 @@ function App() {
 Importa `log` directamente y úsalo en **cualquier lugar** - componentes, funciones, servicios, etc.:
 
 ```jsx
-import { log } from '@dmasis/logger'
+import { log } from 'devlogger'
 
 function MyComponent() {
   // ✅ Funciona en el cuerpo del componente (NO causa re-renders)
@@ -342,7 +342,7 @@ MIT © [Darel Masis](https://github.com/darrelmasis)
 
 ## 🔗 Links
 
-- [NPM Package](https://www.npmjs.com/package/@dmasis/logger)
+- [NPM Package](https://www.npmjs.com/package/devlogger)
 - [GitHub Repository](https://github.com/darrelmasis/logger)
 - [Report Issues](https://github.com/darrelmasis/logger/issues)
 
