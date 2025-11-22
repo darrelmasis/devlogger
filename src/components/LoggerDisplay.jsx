@@ -2,19 +2,15 @@ import { useState, useEffect, useRef } from 'react'
 import { useLoggerContext } from '../context/LoggerContext'
 import { log } from '../core/LoggerCore'
 import { JsonView } from './JsonView'
+import { formatTime } from '../utils/utils'
 import '../styles/logger.scss'
+import Icon from './Icons'
+import LogoLight from '../assets/dev-logger-dark.svg'
+import LogoDark from '../assets/dev-logger.svg'
 
-// Función auxiliar para formatear la hora
-const formatTime = (date) => {
-  if (!date) return '00:00:00'
-  const hours = date.getHours().toString().padStart(2, '0')
-  const minutes = date.getMinutes().toString().padStart(2, '0')
-  const seconds = date.getSeconds().toString().padStart(2, '0')
-  return `${hours}:${minutes}:${seconds}`
-}
 
-const LogItem = ({ log, isDarkMode, isLast }) => {
-  const [expanded, setExpanded] = useState(false)
+
+const LogItem = ({ log, isDarkMode, isLast, isExpanded, onToggle }) => {
   const [copied, setCopied] = useState(false)
 
   const copyLog = (e) => {
@@ -26,16 +22,14 @@ const LogItem = ({ log, isDarkMode, isLast }) => {
     })
   }
 
-  const toggleExpand = () => setExpanded(!expanded)
-
   const themeClass = isDarkMode ? 'logger-dark' : 'logger-light'
   const levelClass = `logger-${log.level || 'info'}`
   const lastClass = isLast ? 'logger-item-last' : ''
-  const expandedClass = expanded ? 'logger-item-expanded' : ''
+  const expandedClass = isExpanded ? 'logger-item-expanded' : ''
 
   return (
     <div 
-      onClick={toggleExpand}
+      onClick={onToggle}
       className={`logger-item ${levelClass} ${themeClass} ${lastClass} ${expandedClass}`}
     >
       
@@ -52,8 +46,8 @@ const LogItem = ({ log, isDarkMode, isLast }) => {
                 <JsonView 
                   data={item} 
                   isDarkMode={isDarkMode} 
-                  collapsed={!expanded}
-                  onToggle={toggleExpand}
+                  collapsed={!isExpanded}
+                  onToggle={onToggle}
                 />
               ) : (
                 <span>{String(item)}</span>
@@ -70,7 +64,9 @@ const LogItem = ({ log, isDarkMode, isLast }) => {
         onClick={copyLog}
         className={`logger-copy-btn ${themeClass}`}
       >
-        {copied ? '✓' : '📋'}
+        {copied ?
+          <Icon name="check" size="sm" /> :
+          <Icon name="copy" size="sm" />}
       </button>
     </div>
   )
@@ -78,12 +74,21 @@ const LogItem = ({ log, isDarkMode, isLast }) => {
 
 export const LoggerDisplay = () => {
   const { logs, isProd } = useLoggerContext()
-  const [isExpanded, setIsExpanded] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(() => {
+    const savedExpanded = localStorage.getItem('logger-expanded')
+    return savedExpanded ? savedExpanded === 'true' : false
+  })
+  const [isPinned, setIsPinned] = useState(() => {
+    const savedPinned = localStorage.getItem('logger-pinned')
+    return savedPinned ? savedPinned === 'true' : false
+  })
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('logger-theme')
     return savedTheme ? savedTheme === 'dark' : true
   })
+  const [expandedLogIndex, setExpandedLogIndex] = useState(null)
   const panelRef = useRef(null)
+  const contentRef = useRef(null)
 
   // Don't render in production
   if (isProd) {
@@ -95,27 +100,45 @@ export const LoggerDisplay = () => {
   }, [isDarkMode])
 
   useEffect(() => {
+    localStorage.setItem('logger-pinned', isPinned.toString())
+  }, [isPinned])
+
+  useEffect(() => {
+    localStorage.setItem('logger-expanded', isExpanded.toString())
+  }, [isExpanded])
+
+  useEffect(() => {
     if (logs.length > 0 && !isExpanded) {
       // Optional: auto-expand logic
     }
   }, [logs.length, isExpanded])
 
-  // Click outside to minimize
+  // Auto-scroll to bottom when new logs arrive
+  useEffect(() => {
+    if (contentRef.current && isExpanded) {
+      contentRef.current.scrollTo({
+        top: contentRef.current.scrollHeight,
+        behavior: 'smooth'
+      })
+    }
+  }, [logs, isExpanded])
+
+  // Click outside to minimize (only if not pinned)
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (panelRef.current && !panelRef.current.contains(event.target) && isExpanded) {
+      if (panelRef.current && !panelRef.current.contains(event.target) && isExpanded && !isPinned) {
         setIsExpanded(false)
       }
     }
 
-    if (isExpanded) {
+    if (isExpanded && !isPinned) {
       document.addEventListener('mousedown', handleClickOutside)
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [isExpanded])
+  }, [isExpanded, isPinned])
 
   const hasLogs = logs.length > 0
   const themeClass = isDarkMode ? 'logger-dark' : 'logger-light'
@@ -128,7 +151,7 @@ export const LoggerDisplay = () => {
         className={`logger-collapsed ${statusClass} ${themeClass}`}
         title={hasLogs ? `${logs.length} log(s)` : 'Logger'}
       >
-        {hasLogs ? logs.length : '📋'}
+        {hasLogs ? logs.length : <Icon name="terminal" size="md" />}
       </div>
     )
   }
@@ -140,8 +163,25 @@ export const LoggerDisplay = () => {
         onClick={() => setIsExpanded(false)}
         style={{ cursor: 'pointer' }}
       >
-        <span className="logger-title">Logger ({logs.length})</span>
+        <span className="logger-title">
+          <img 
+            src={isDarkMode ? LogoDark : LogoLight} 
+            alt="Dev Logger" 
+            className="logger-logo" 
+          />
+          <span>({logs.length})</span>
+        </span>
         <div className="logger-buttons">
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              setIsPinned(!isPinned)
+            }}
+            className={`logger-btn ${themeClass}`}
+            title={isPinned ? 'Desfijar panel' : 'Fijar panel'}
+          >
+            {isPinned ? <Icon name="lock" size="sm" /> : <Icon name="lock-open" size="sm" />}
+          </button>
           <button
             onClick={(e) => {
               e.stopPropagation()
@@ -150,7 +190,7 @@ export const LoggerDisplay = () => {
             className={`logger-btn ${themeClass}`}
             title={isDarkMode ? 'Modo claro' : 'Modo oscuro'}
           >
-            {isDarkMode ? '☀️' : '🌙'}
+            {isDarkMode ? <Icon name="sun-bright" size="sm" /> : <Icon name="moon-stars" size="sm" />}
           </button>
           <button
             onClick={(e) => {
@@ -160,9 +200,10 @@ export const LoggerDisplay = () => {
             className={`logger-btn logger-btn-clear ${themeClass}`}
             title="Limpiar todos los logs"
           >
-            🗑️
+            <Icon name="broom-wide" size="sm" />
           </button>
-          <button
+          <div className={`logger-btn-minimize-container ${themeClass}`}>
+            <button
             onClick={(e) => {
               e.stopPropagation()
               setIsExpanded(false)
@@ -170,15 +211,18 @@ export const LoggerDisplay = () => {
             className={`logger-btn logger-btn-minimize ${themeClass}`}
             title="Minimizar"
           >
-            −
+            <Icon name="window-minimize" size="sm" />
           </button>
+          </div>
         </div>
       </div>
 
-      <div className={`logger-content ${themeClass}`}>
+      <div ref={contentRef} className={`logger-content ${themeClass}`}>
         {logs.length === 0 ? (
           <div className={`logger-empty ${themeClass}`}>
-            Sin logs aún...
+            <div className="empty-screen">
+              <Icon name="empty-set" size="2xl" style="light" color="#333" />
+            </div>
           </div>
         ) : (
           logs.map((log, idx) => (
@@ -187,6 +231,8 @@ export const LoggerDisplay = () => {
               log={log} 
               isDarkMode={isDarkMode} 
               isLast={idx === logs.length - 1}
+              isExpanded={expandedLogIndex === idx}
+              onToggle={() => setExpandedLogIndex(expandedLogIndex === idx ? null : idx)}
             />
           ))
         )}

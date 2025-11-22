@@ -5,17 +5,18 @@ $light-bg: rgba(255, 255, 255, 0.98);
 $dark-text: #fff;
 $light-text: #1a1a1a;
 
-// Colores de niveles de log
-$success-dark: #4caf50;
-$success-light: #2e7d32;
-$info-dark: #2196f3;
-$info-light: #1565c0;
-$warn-dark: #ff9800;
-$warn-light: #e65100;
-$error-dark: #f44336;
-$error-light: #c62828;
-$force-dark: #9c27b0;
-$force-light: #6a1b9a;
+// Colores de niveles de log - Mayor contraste
+$success-dark: #5dff5d;
+$success-light: #1b7a1b;
+$info-dark: #4db8ff;
+$info-light: #0d47a1;
+$warn-dark: #ffb84d;
+$warn-light: #d84315;
+$error-dark: #ff5252;
+$error-light: #b71c1c;
+$force-dark: #ce93ff;
+$force-light: #4a148c;
+
 
 // Personalización del scrollbar
 .logger-content {
@@ -33,6 +34,7 @@ $force-light: #6a1b9a;
     display: none;
   }
 }
+
 
 // Scrollbar en modo oscuro
 .logger-dark .logger-content {
@@ -78,29 +80,32 @@ $force-light: #6a1b9a;
   font-size: 20px;
   color: #fff;
   font-weight: bold;
-  
+
+  // HAS LOGS
   &.has-logs.logger-dark {
-    background-color: rgba(76, 175, 80, 0.9);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    background-color: #2e7d32; // verde más profundo para mejor contraste
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
   }
-  
+
   &.has-logs.logger-light {
-    background-color: #4caf50;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    background-color: #43a047; // ligeramente más oscuro que #4caf50
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+    border: 2px solid rgba(255, 255, 255, 0.4);
   }
-  
+
+  // NO LOGS
   &.no-logs.logger-dark {
-    background-color: rgba(100, 100, 100, 0.7);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    background-color: #565656; // gris sólido, buen contraste
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
   }
-  
+
   &.no-logs.logger-light {
-    background-color: #9e9e9e;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    background-color: #8a8a8a; // gris medio más consistente
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+    border: 2px solid rgba(255, 255, 255, 0.4);
   }
 }
+
 
 // Panel expandido
 .logger-panel {
@@ -120,10 +125,10 @@ $force-light: #6a1b9a;
   -webkit-backdrop-filter: blur(10px);
   
   &.logger-dark {
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: rgba(0, 0, 0, 0.88);
     color: $dark-text;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
   }
   
   &.logger-light {
@@ -143,6 +148,9 @@ $force-light: #6a1b9a;
   
   .logger-title {
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px
   }
   
   .logger-buttons {
@@ -151,8 +159,8 @@ $force-light: #6a1b9a;
   }
   
   &.logger-dark {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   }
   
   &.logger-light {
@@ -207,7 +215,7 @@ $force-light: #6a1b9a;
   flex: 1;
   
   &.logger-dark {
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.2);
   }
   
   &.logger-light {
@@ -300,22 +308,191 @@ $force-light: #6a1b9a;
   width: 32px;
   height: 32px;
   border-radius: 4px;
-  opacity: 0.6;
-  transition: opacity 0.2s;
+  opacity: 1;
+  background: transparent;
+  transition: background 0.2s;
   z-index: 10;
   
-  &:hover {
-    opacity: 1;
-  }
-  
   &.logger-dark {
-    background: rgba(255, 255, 255, 0.1);
     color: $dark-text;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
   }
   
   &.logger-light {
-    background: rgba(0, 0, 0, 0.15);
     color: $light-text;
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+// Marca de tiempo
+.logger-timestamp {
+  font-size: 10px;
+  margin-bottom: 4px;
+  font-family: monospace;
+  
+  &.logger-dark {
+    color: #888;
+  }
+  
+  &.logger-light {
+    color: #666;
+  }
+}
+
+// Contenido del log
+.logger-log-content {
+  padding-right: 30px;
+  
+  pre {
+    margin: 0;
+    font-family: inherit;
+  }
+}
+
+// Estilos de JsonView
+.json-view {
+  font-family: monospace;
+  
+  .json-arrow {
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .json-collapsed {
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .json-indent {
+    padding-left: 20px;
+  }
+}
+
+// Colores de JsonView - Modo oscuro
+.logger-dark .json-view {
+  .json-null { color: #999; }
+  .json-string { color: #ce9178; }
+  .json-number { color: #b5cea8; }
+  
+  &.logger-dark {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  &.logger-light {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+}
+
+// Estado vacío
+.logger-empty {
+  text-align: center;
+  padding: 20px;
+  
+  &.logger-dark {
+    color: #888;
+  }
+  
+  &.logger-light {
+    color: #666;
+  }
+}
+
+// Item de log
+.logger-item {
+  padding: 16px 16px 16px 4px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+  
+  // Estado hover - Modo oscuro
+  &.logger-dark:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  // Estado hover - Modo claro
+  &.logger-light:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  // Estado expandido - Modo oscuro
+  &.logger-item-expanded.logger-dark {
+    background-color: rgba(0, 0, 0, 0.3);
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+  }
+  
+  // Estado expandido - Modo claro
+  &.logger-item-expanded.logger-light {
+    background-color: rgba(0, 0, 0, 0.05);
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+  }
+  
+  &:not(.logger-item-last) {
+    &.logger-dark {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    &.logger-light {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  // Colores por nivel de log
+  &.logger-success.logger-dark { color: $success-dark; }
+  &.logger-success.logger-light { color: $success-light; }
+  &.logger-info.logger-dark { color: $info-dark; }
+  &.logger-info.logger-light { color: $info-light; }
+  &.logger-warn.logger-dark { color: $warn-dark; }
+  &.logger-warn.logger-light { color: $warn-light; }
+  &.logger-error.logger-dark { color: $error-dark; }
+  &.logger-error.logger-light { color: $error-light; }
+  &.logger-force.logger-dark { color: $force-dark; }
+  &.logger-force.logger-light { color: $force-light; }
+}
+
+// Botón de copiar
+.logger-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  opacity: 1;
+  background: transparent;
+  transition: background 0.2s;
+  z-index: 10;
+  
+  &.logger-dark {
+    color: $dark-text;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+  
+  &.logger-light {
+    color: $light-text;
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.15);
+    }
   }
 }
 
@@ -381,4 +558,22 @@ $force-light: #6a1b9a;
   .json-boolean { color: #0000ff; }
   .json-key { color: #0451a5; }
   .json-collapsed { color: #666; }
+}
+
+
+.logger-btn-minimize-container {
+  padding-left: 8px;
+  
+  &.logger-dark {
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  &.logger-light {
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+  }
+}
+
+
+.logger-logo {
+  width: 96px;
 }
