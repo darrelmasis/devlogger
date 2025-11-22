@@ -5,6 +5,26 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.3.0] - 2025-11-22
+
+### ✨ Agregado
+- **Iconos SVG personalizados**: Implementado componente `Icons.jsx` con iconos SVG optimizados
+- **Directorio de assets**: Agregado directorio `src/assets/` con iconos SVG
+- **Script de procesamiento de iconos**: Nuevo script `process-icons.js` para gestionar iconos
+
+### 🎨 Mejorado
+- **Interfaz visual moderna**: Reemplazados todos los emojis por iconos SVG profesionales
+- **Mejor experiencia visual**: Iconos más nítidos y consistentes en todos los tamaños
+- **Iconos personalizables**: Sistema de iconos que permite fácil personalización
+
+### 🔧 Cambiado
+- **LoggerDisplay**: Actualizado para usar iconos SVG en lugar de emojis
+- **Configuración de Vite**: Agregado soporte para SVGR con `vite-plugin-svgr`
+- **Build optimizado**: Configuración mejorada para incluir assets SVG en el bundle
+
+### 📦 Dependencias
+- Agregado `vite-plugin-svgr` para soporte de SVG como componentes React
+
 ## [0.2.0] - 2025-11-22
 
 ### ✨ Agregado
@@ -59,6 +79,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+[0.3.0]: https://github.com/darrelmasis/logger/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/darrelmasis/logger/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/darrelmasis/logger/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/darrelmasis/logger/releases/tag/v0.1.0
