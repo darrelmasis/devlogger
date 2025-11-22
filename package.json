@@ -29,12 +29,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/darelmasis/logger.git"
+    "url": "https://github.com/darrelmasis/logger.git"
   },
   "bugs": {
-    "url": "https://github.com/darelmasis/logger/issues"
+    "url": "https://github.com/darrelmasis/logger/issues"
   },
-  "homepage": "https://github.com/darelmasis/logger#readme",
+  "homepage": "https://github.com/darrelmasis/logger#readme",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
