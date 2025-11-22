@@ -1,7 +1,7 @@
 {
   "name": "@darelmasis/devlogger",
   "private": false,
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Librería React ligera para logging visual en desarrollo con panel flotante",
   "type": "module",
   "main": "./dist/logger.cjs",
@@ -39,7 +39,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "icons": "node scripts/process-icons.js"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
@@ -50,12 +51,14 @@
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
+    "classnames": "^2.5.1",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "sass": "^1.94.2",
     "vite": "^7.2.4",
-    "vite-plugin-css-injected-by-js": "^3.5.2"
+    "vite-plugin-css-injected-by-js": "^3.5.2",
+    "vite-plugin-svgr": "^4.5.0"
   }
 }
