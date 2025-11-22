@@ -331,14 +331,14 @@ Las contribuciones son bienvenidas. Por favor:
 
 ## 📄 Licencia
 
-MIT © [Darel Masis](https://github.com/darelmasis)
+MIT © [Darel Masis](https://github.com/darrelmasis)
 
 ## 🔗 Links
 
 - [NPM Package](https://www.npmjs.com/package/@dmasis/logger)
-- [GitHub Repository](https://github.com/darelmasis/logger)
-- [Report Issues](https://github.com/darelmasis/logger/issues)
+- [GitHub Repository](https://github.com/darrelmasis/logger)
+- [Report Issues](https://github.com/darrelmasis/logger/issues)
 
 ---
 
-Hecho con ❤️ por [Darel Masis](https://github.com/darelmasis)
+Hecho con ❤️ por [Darel Masis](https://github.com/darrelmasis)
