@@ -5,6 +5,14 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.3.9] - 2025-11-23
+
+### Corregido 🔧
+- **LoggerDisplay en producción**: Componente ahora retorna `null` correctamente en producción, no se renderiza
+- **LoggerCore en producción**: En producción solo `log.force()` va a consola, ningún log se emite al contexto visual
+- **LoggerContext en producción**: No se suscribe a logs en producción, evitando trabajo innecesario
+- **Hooks optimizados**: Los hooks en LoggerDisplay hacen early return en producción para evitar trabajo innecesario
+
 ## [0.3.8] - 2025-11-23
 
 ### Corregido 🔧
@@ -148,6 +156,8 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+[0.3.9]: https://github.com/darrelmasis/devlogger/compare/v0.3.8...v0.3.9
+[0.3.8]: https://github.com/darrelmasis/devlogger/compare/v0.3.7...v0.3.8
 [0.3.6]: https://github.com/darrelmasis/devlogger/compare/v0.3.5...v0.3.6
 [0.3.5]: https://github.com/darrelmasis/devlogger/compare/v0.3.4...v0.3.5
 [0.3.2]: https://github.com/darrelmasis/logger/compare/v0.3.1...v0.3.2
