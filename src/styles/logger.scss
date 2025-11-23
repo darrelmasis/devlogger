@@ -112,11 +112,12 @@ $border-white: #ffffff;
   // La burbuja mantiene el mismo color siempre (no cambia con logs)
   &.logger-dark { 
     background-color: $collapsed-no-logs-dark; 
+    border: 2px solid rgba(255, 255, 255, 0.15); // Borde claro en dark mode
   }
   &.logger-light { 
     background-color: $collapsed-no-logs-light; 
     color: $light-text; 
-    border: 2px solid $border-white; 
+    border: 2px solid rgba(0, 0, 0, 0.2); // Borde oscuro en light mode
   }
 
   .logger-badge {
