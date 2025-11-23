@@ -5,6 +5,29 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.3.8] - 2025-11-23
+
+### Corregido 🔧
+- **CRÍTICO: Detección de entorno en producción**: Corregido bug donde el entorno se detectaba en tiempo de build en lugar de runtime
+  - Antes: La librería siempre detectaba `development` porque se compilaba localmente
+  - Ahora: Detección basada en hostname en tiempo de ejecución usando `window.location.hostname`
+  - Display ahora se oculta correctamente en producción (ej: Vercel, Netlify)
+  - Logs normales ahora se suprimen correctamente en producción (solo `.force` logs aparecen)
+- **Variables de entorno**: Eliminadas todas las verificaciones de `import.meta.env.*` que no funcionan en librerías
+- **log.env dinámico**: Convertido `log.env` de propiedad estática a getter dinámico que retorna el entorno actual
+
+### Mejorado
+- **Detección de entorno más robusta**: Ahora detecta múltiples patrones de desarrollo:
+  - IPs locales: `localhost`, `127.0.0.1`, `192.168.*`, `10.*`, `*.local`
+  - Subdominios comunes: `dev.`, `-dev.`, `.dev-`, `preview`, `staging`, `test`
+  - Todo lo demás se considera producción
+- **Documentación mejorada**: Agregados comentarios explicando por qué `import.meta.env` no funciona en librerías
+
+### Técnico
+- `env.js`: Reescrito para usar solo detección basada en browser runtime
+- `LoggerCore.js`: Ahora verifica `isProd` dinámicamente en cada llamada a `addLog()`
+- `LoggerContext.jsx`: Actualizado para usar `getIsProd()` en lugar de `useMemo` con deps vacías
+
 ## [0.3.6] - 2025-01-XX
 
 ### Mejorado
