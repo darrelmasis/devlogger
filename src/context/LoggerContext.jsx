@@ -13,17 +13,22 @@ export const LoggerProvider = ({ children }) => {
 
   // Se suscribe a los eventos del logger
   useEffect(() => {
+    // Don't subscribe to logs in production (except force logs)
+    if (isProd) return
+    
     const unsubscribe = loggerCore.subscribe((logEntry) => {
       if (logEntry.type === 'clear') {
         setLogs([])
       } else {
+        // In production, only add force logs
+        // But since we already return early if isProd, this shouldn't execute
         setLogs(prev => [...prev, logEntry])
       }
     })
 
     // Limpia la suscripción al desmontar el componente
     return unsubscribe
-  }, [])
+  }, [isProd])
 
   // Captura errores JavaScript no manejados
   useEffect(() => {

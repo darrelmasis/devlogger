@@ -13,6 +13,9 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
   - Ahora: Detección basada en hostname en tiempo de ejecución usando `window.location.hostname`
   - Display ahora se oculta correctamente en producción (ej: Vercel, Netlify)
   - Logs normales ahora se suprimen correctamente en producción (solo `.force` logs aparecen)
+- **LoggerDisplay en producción**: Componente ahora retorna `null` correctamente en producción, no se renderiza
+- **LoggerCore en producción**: En producción solo `log.force()` va a consola, ningún log se emite al contexto visual
+- **LoggerContext en producción**: No se suscribe a logs en producción, evitando trabajo innecesario
 - **Variables de entorno**: Eliminadas todas las verificaciones de `import.meta.env.*` que no funcionan en librerías
 - **log.env dinámico**: Convertido `log.env` de propiedad estática a getter dinámico que retorna el entorno actual
 
@@ -22,6 +25,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
   - Subdominios comunes: `dev.`, `-dev.`, `.dev-`, `preview`, `staging`, `test`
   - Todo lo demás se considera producción
 - **Documentación mejorada**: Agregados comentarios explicando por qué `import.meta.env` no funciona en librerías
+- **Hooks optimizados**: Los hooks en LoggerDisplay hacen early return en producción para evitar trabajo innecesario
 
 ### Técnico
 - `env.js`: Reescrito para usar solo detección basada en browser runtime

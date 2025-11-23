@@ -22,49 +22,58 @@ class LoggerCore {
     // Check production status at runtime for each log
     const isProd = getIsProd()
     
-    if (!isProd || level === 'force') {
-      // Convierte los niveles personalizados a métodos válidos de console
-      const consoleMethod = level === 'success' || level === 'info' ? 'log' :
-                           level === 'force' ? 'log' :
-                           level === 'warn' ? 'warn' :
-                           level === 'error' ? 'error' : 'log'
-      
-      // Pasa los argumentos directamente a console para mantener la inspección de objetos
-      console[consoleMethod](...args)
-      
-      // Para mostrar en pantalla, convierte objetos a un formato legible
-      const message = args.map(arg => {
-        if (typeof arg === 'object' && arg !== null) {
-          try {
-            // Maneja referencias circulares
-            const seen = new WeakSet()
-            return JSON.stringify(arg, (key, value) => {
-              if (typeof value === 'object' && value !== null) {
-                if (seen.has(value)) {
-                  return '[Circular]'
-                }
-                seen.add(value)
-              }
-              return value
-            }, 2)
-          } catch (e) {
-            return `[Objeto: ${Object.prototype.toString.call(arg)}]`
-          }
-        }
-        return String(arg)
-      }).join(' ')
-      
-      // Crea la entrada del log con marca de tiempo
-      const logEntry = {
-        level,
-        message,
-        data: args,
-        timestamp: new Date()
+    // Convierte los niveles personalizados a métodos válidos de console
+    const consoleMethod = level === 'success' || level === 'info' ? 'log' :
+                         level === 'force' ? 'log' :
+                         level === 'warn' ? 'warn' :
+                         level === 'error' ? 'error' : 'log'
+    
+    // In production: only log.force() goes to console, nothing to visual display
+    if (isProd) {
+      if (level === 'force') {
+        // Force logs always go to console, even in production
+        console[consoleMethod](...args)
       }
-      
-      // Emite el evento a todos los suscriptores
-      this.emit(logEntry)
+      // Don't emit to visual display in production
+      return
     }
+    
+    // In development: all logs go to console AND visual display
+    // Pasa los argumentos directamente a console para mantener la inspección de objetos
+    console[consoleMethod](...args)
+    
+    // Para mostrar en pantalla, convierte objetos a un formato legible
+    const message = args.map(arg => {
+      if (typeof arg === 'object' && arg !== null) {
+        try {
+          // Maneja referencias circulares
+          const seen = new WeakSet()
+          return JSON.stringify(arg, (key, value) => {
+            if (typeof value === 'object' && value !== null) {
+              if (seen.has(value)) {
+                return '[Circular]'
+              }
+              seen.add(value)
+            }
+            return value
+          }, 2)
+        } catch (e) {
+          return `[Objeto: ${Object.prototype.toString.call(arg)}]`
+        }
+      }
+      return String(arg)
+    }).join(' ')
+    
+    // Crea la entrada del log con marca de tiempo
+    const logEntry = {
+      level,
+      message,
+      data: args,
+      timestamp: new Date()
+    }
+    
+    // Emite el evento a todos los suscriptores (only in development)
+    this.emit(logEntry)
   }
 
   clear() {

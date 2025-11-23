@@ -80,14 +80,17 @@ const LogItem = ({ log, isDarkMode, isLast, isExpanded, onToggle }) => {
 export const LoggerDisplay = () => {
   const { logs, isProd } = useLoggerContext()
   const [isExpanded, setIsExpanded] = useState(() => {
+    if (isProd) return false
     const savedExpanded = localStorage.getItem('logger-expanded')
     return savedExpanded ? savedExpanded === 'true' : false
   })
   const [isPinned, setIsPinned] = useState(() => {
+    if (isProd) return false
     const savedPinned = localStorage.getItem('logger-pinned')
     return savedPinned ? savedPinned === 'true' : false
   })
   const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (isProd) return true
     const savedTheme = localStorage.getItem('logger-theme')
     return savedTheme ? savedTheme === 'dark' : true
   })
@@ -95,41 +98,42 @@ export const LoggerDisplay = () => {
   const panelRef = useRef(null)
   const contentRef = useRef(null)
 
-  // Don't render in production
-  if (isProd) {
-    return null
-  }
-
   useEffect(() => {
+    if (isProd) return
     localStorage.setItem('logger-theme', isDarkMode ? 'dark' : 'light')
-  }, [isDarkMode])
+  }, [isDarkMode, isProd])
 
   useEffect(() => {
+    if (isProd) return
     localStorage.setItem('logger-pinned', isPinned.toString())
-  }, [isPinned])
+  }, [isPinned, isProd])
 
   useEffect(() => {
+    if (isProd) return
     localStorage.setItem('logger-expanded', isExpanded.toString())
-  }, [isExpanded])
+  }, [isExpanded, isProd])
 
   useEffect(() => {
+    if (isProd) return
     if (logs.length > 0 && !isExpanded) {
       // Optional: auto-expand logic
     }
-  }, [logs.length, isExpanded])
+  }, [logs.length, isExpanded, isProd])
 
   // Auto-scroll to bottom when new logs arrive
   useEffect(() => {
+    if (isProd) return
     if (contentRef.current && isExpanded) {
       contentRef.current.scrollTo({
         top: contentRef.current.scrollHeight,
         behavior: 'smooth'
       })
     }
-  }, [logs, isExpanded])
+  }, [logs, isExpanded, isProd])
 
   // Click outside to minimize (only if not pinned)
   useEffect(() => {
+    if (isProd) return
     const handleClickOutside = (event) => {
       if (panelRef.current && !panelRef.current.contains(event.target) && isExpanded && !isPinned) {
         setIsExpanded(false)
@@ -143,7 +147,12 @@ export const LoggerDisplay = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [isExpanded, isPinned])
+  }, [isExpanded, isPinned, isProd])
+
+  // Don't render in production - return null after all hooks
+  if (isProd) {
+    return null
+  }
 
   const hasLogs = logs.length > 0
   const themeClass = isDarkMode ? 'logger-dark' : 'logger-light'
