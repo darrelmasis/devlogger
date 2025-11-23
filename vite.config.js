@@ -16,14 +16,22 @@ export default defineConfig({
       fileName: 'logger',
       formats: ['es', 'cjs']
     },
+    minify: 'esbuild',
+    target: 'es2015',
     rollupOptions: {
       external: ['react', 'react-dom'],
       output: {
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM'
+        },
+        compact: true,
+        generatedCode: {
+          constBindings: true
         }
       }
-    }
+    },
+    cssMinify: true,
+    reportCompressedSize: true
   }
 })

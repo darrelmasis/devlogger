@@ -5,6 +5,13 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.3.2] - 2025-11-22
+
+### Mejorado
+- **Bundle optimizado**: Configuración explícita de minificación con esbuild
+- **Build mejorado**: Target ES2015 para mejor compatibilidad
+- **Código compacto**: Opciones de generación de código optimizadas
+
 ## [0.3.1] - 2025-11-22
 
 ### Mejorado
@@ -86,6 +93,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+[0.3.2]: https://github.com/darrelmasis/logger/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/darrelmasis/logger/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/darrelmasis/logger/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/darrelmasis/logger/compare/v0.1.1...v0.2.0
