@@ -1,12 +1,16 @@
 import fs from 'fs'
 import path from 'path'
 import { execSync } from 'child_process'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 console.log('⏳ Procesando iconos...')
 
 // 1. Ejecutar PowerShell para copiar/actualizar base
-const powershellScript =
-  'powershell -ExecutionPolicy Bypass -File "C:\\Users\\ADATOS\\Proyectos\\logger\\src\\assets\\Icons\\src\\get-icons-variants-from-regular.ps1"'
+const powershellScriptPath = path.join(__dirname, '..', 'src', 'assets', 'icons', 'src', 'get-icons-variants-from-regular.ps1')
+const powershellScript = `powershell -ExecutionPolicy Bypass -File "${powershellScriptPath}"`
 
 execSync(powershellScript, { stdio: 'inherit' })
 

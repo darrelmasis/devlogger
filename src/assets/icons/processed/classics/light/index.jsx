@@ -2,6 +2,7 @@ import BroomWide from './broom-wide.svg?react'
 import Check from './check.svg?react'
 import ChevronDown from './chevron-down.svg?react'
 import ChevronRight from './chevron-right.svg?react'
+import CodeSimple from './code-simple.svg?react'
 import Copy from './copy.svg?react'
 import EmptySet from './empty-set.svg?react'
 import LockOpen from './lock-open.svg?react'
@@ -16,6 +17,7 @@ export {
   Check,
   ChevronDown,
   ChevronRight,
+  CodeSimple,
   Copy,
   EmptySet,
   LockOpen,

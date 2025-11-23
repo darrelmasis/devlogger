@@ -40,21 +40,26 @@ const LogItem = ({ log, isDarkMode, isLast, isExpanded, onToggle }) => {
 
       <div className="logger-log-content">
         {log.data && log.data.length > 0 ? (
-          log.data.map((item, itemIdx) => (
-            <span key={itemIdx}>
-              {typeof item === 'object' && item !== null ? (
-                <JsonView 
-                  data={item} 
-                  isDarkMode={isDarkMode} 
-                  collapsed={!isExpanded}
-                  onToggle={onToggle}
-                />
-              ) : (
-                <span>{String(item)}</span>
-              )}
-              {itemIdx < log.data.length - 1 ? ' ' : ''}
-            </span>
-          ))
+          <div className="logger-data-container">
+            {log.data.map((item, itemIdx) => {
+              const isObject = typeof item === 'object' && item !== null
+              return (
+                <span key={itemIdx} className={isObject ? 'logger-data-item-block' : 'logger-data-item-inline'}>
+                  {isObject ? (
+                    <JsonView 
+                      data={item} 
+                      isDarkMode={isDarkMode} 
+                      collapsed={!isExpanded}
+                      onToggle={onToggle}
+                    />
+                  ) : (
+                    <span>{String(item)}</span>
+                  )}
+                  {!isObject && itemIdx < log.data.length - 1 && ' '}
+                </span>
+              )
+            })}
+          </div>
         ) : (
           <pre>{log.message}</pre>
         )}
@@ -151,7 +156,7 @@ export const LoggerDisplay = () => {
         className={`logger-collapsed ${statusClass} ${themeClass}`}
         title={hasLogs ? `${logs.length} log(s)` : 'Logger'}
       >
-        {hasLogs ? logs.length : <Icon name="terminal" size="md" />}
+        {hasLogs ? logs.length : <Icon name="code-simple" size="md" />}
       </div>
     )
   }
@@ -221,7 +226,7 @@ export const LoggerDisplay = () => {
         {logs.length === 0 ? (
           <div className={`logger-empty ${themeClass}`}>
             <div className="empty-screen">
-              <Icon name="empty-set" size="2xl" style="light" color="#333" />
+              <Icon name="empty-set" size="2xl" style="light" family="classics" />
             </div>
           </div>
         ) : (

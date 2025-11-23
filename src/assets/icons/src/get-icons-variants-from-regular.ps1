@@ -1,5 +1,5 @@
 ﻿# Carpeta fuente (siempre la misma)
-$src_base = "C:\Users\ADATOS\Proyectos\logger\src\assets\icons\"
+$src_base = "C:\Users\ADATOS\Proyectos\devlogger\src\assets\icons\"
 $target_base = "C:\Users\ADATOS\OneDrive - MONISA\Recursos\svgs\"
 
 # Subcarpeta de origen

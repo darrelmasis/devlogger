@@ -5,6 +5,20 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.3.5] - 2025-01-XX
+
+### Corregido
+- **Formateado de logs**: Múltiples argumentos ahora aparecen en la misma línea (ej: `[INFO] Mensaje`)
+- **Orientación de iconos**: Iconos de objetos/arrays ahora muestran correctamente ▶ cuando están cerrados y ▼ cuando están abiertos
+- **Expansión de items**: Los logs ahora se expanden hacia abajo en lugar de hacia arriba
+- **LoggerContext**: Corregido uso incorrecto de `addLog` con arrays en captura de errores
+- **Ruta portable**: Script de procesamiento de iconos ahora usa rutas relativas en lugar de hardcodeadas
+
+### Mejorado
+- **Layout de logs**: Mejorado el layout para que strings aparezcan en línea y objetos en bloque
+- **Estilos JSON**: Agregados estilos faltantes para `json-arrow` y `json-indent`
+- **Documentación**: Agregada documentación completa sobre formateado visual de logs (`FORMATEADO_LOGS.md`)
+
 ## [0.3.2] - 2025-11-22
 
 ### Mejorado
@@ -93,6 +107,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+[0.3.5]: https://github.com/darrelmasis/devlogger/compare/v0.3.4...v0.3.5
 [0.3.2]: https://github.com/darrelmasis/logger/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/darrelmasis/logger/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/darrelmasis/logger/compare/v0.2.0...v0.3.0

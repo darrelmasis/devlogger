@@ -70,7 +70,7 @@ const Icon = forwardRef(
 
     // Estilos inline
     const spanStyle = {
-      display: 'inline-block',
+      display: 'inline-flex',
       userSelect: 'none',
       fill: color,
       ...sizeMap[size],

@@ -33,12 +33,12 @@ export const JsonView = ({ data, level = 0, isDarkMode = true, collapsed, onTogg
     return (
       <span className="json-view">
         <span onClick={handleToggle} className="json-arrow">
-          {isCollapsed ? arrowDown : arrowRight}
+          {isCollapsed ? arrowRight : arrowDown}
         </span>
         {' '}
         {isCollapsed ? (
           <span onClick={handleToggle} className="json-collapsed">
-            [{data.length} items]
+            [{data.length}] Array
           </span>
         ) : (
           <>
@@ -66,12 +66,12 @@ export const JsonView = ({ data, level = 0, isDarkMode = true, collapsed, onTogg
     return (
       <span className="json-view">
         <span onClick={handleToggle} className="json-arrow">
-          {isCollapsed ? arrowDown : arrowRight}
+          {isCollapsed ? arrowRight : arrowDown}
         </span>
         {' '}
         {isCollapsed ? (
           <span onClick={handleToggle} className="json-collapsed">
-            {'{'}{entries.length} keys{'}'}
+            {'{'}{entries.length}{'}'} Object
           </span>
         ) : (
           <>

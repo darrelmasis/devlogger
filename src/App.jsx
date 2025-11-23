@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { log } from './core/LoggerCore'
-import './App.css'
+import './App.css';
+import ErrorSimulator from './components/ErrorSimulator';
 
 // ✅ Prueba: log en el cuerpo del componente (NO debe causar re-renders infinitos)
 log.info('Componente App renderizando')
@@ -151,6 +152,7 @@ function App() {
         <p>✅ Captura automática de errores habilitada</p>
         <p>Entorno: <strong>{log.env}</strong></p>
       </div>
+      <ErrorSimulator />
     </div>
   )
 }

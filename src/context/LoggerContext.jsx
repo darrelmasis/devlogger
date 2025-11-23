@@ -36,11 +36,11 @@ export const LoggerProvider = ({ children }) => {
         ? event.error.stack || event.error.message 
         : event.message
 
-      loggerCore.addLog('error', [
+      loggerCore.addLog('error',
         'Error No Capturado:',
         errorMessage,
         event.filename ? `en ${event.filename}:${event.lineno}:${event.colno}` : ''
-      ])
+      )
       
       return true
     }
@@ -61,10 +61,10 @@ export const LoggerProvider = ({ children }) => {
       
       const reason = event.reason?.stack || event.reason?.message || event.reason
 
-      loggerCore.addLog('error', [
+      loggerCore.addLog('error',
         'Promesa No Manejada:',
         reason
-      ])
+      )
     }
 
     window.addEventListener('unhandledrejection', handleRejection)
