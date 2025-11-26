@@ -5,6 +5,31 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.4.0] - 2025-11-25
+
+### Agregado ✨
+- **Simulación de entorno**: Ahora es posible simular diferentes entornos (development/production) mediante localStorage
+  - Útil para testing y demos sin necesidad de deploy
+  - Se puede activar/desactivar desde la aplicación demo
+  - Persiste entre recargas de página
+
+### Mejorado 🚀
+- **Estilos refactorizados**: Eliminados todos los colores hardcodeados del contador de agrupación de logs
+  - Ahora usa variables SCSS para mejor mantenibilidad
+  - Clase `.logger-group-count` con estilos consistentes para temas claro/oscuro
+  - Mejor integración con el sistema de temas existente
+- **Detección de entorno mejorada**: La función `detectEnv()` ahora verifica localStorage primero
+  - Permite override temporal del entorno detectado automáticamente
+  - Útil para pruebas y desarrollo
+
+### Técnico 🔧
+- Refactorización completa de `logger.scss` con mejor organización de variables
+- Eliminados estilos inline del componente `LoggerDisplay`
+- Mejorada la documentación de código con comentarios en español
+
+### Sin Breaking Changes ⚠️
+Todos los cambios son internos y no afectan la API pública del paquete. No se requiere migración.
+
 ## [0.3.9] - 2025-11-23
 
 ### Corregido 🔧

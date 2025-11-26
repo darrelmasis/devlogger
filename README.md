@@ -16,11 +16,13 @@ Una solución moderna y elegante para debugging en React que combina logging en 
 - **Click fuera para minimizar** - Cierra automáticamente el panel al hacer click fuera (si no está fijado)
 - **Scroll automático** - Desplazamiento suave al último log cuando llega uno nuevo
 - **Acordeón de logs** - Solo un log expandido a la vez para mejor enfoque
+- **Agrupación de logs** - Logs idénticos se agrupan automáticamente con contador (×N)
 - **Tema claro/oscuro** - Alterna entre temas con persistencia en localStorage
 - **Objetos JSON interactivos** - Expande y colapsa objetos complejos como en DevTools
 - **Copiar logs** - Copia cualquier log al clipboard con un click
 - **Limpiar logs** - Elimina todos los logs fácilmente
 - **Auto-detección de entorno** - Se desactiva automáticamente en producción
+- **Simulación de entorno** - Simula production/development para testing sin deploy
 - **Captura automática de errores** - Captura errores no manejados, promesas rechazadas y más
 - **Ligera** - Solo ~18KB (gzipped: ~5KB)
 - **Manejo de objetos circulares** - Soporta objetos complejos como `window`

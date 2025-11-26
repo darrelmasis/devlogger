@@ -10,6 +10,14 @@
  * @returns {'development' | 'production'} Entorno actual
  */
 export const detectEnv = () => {
+  // Primero verifica si hay un entorno simulado en localStorage (para demo)
+  if (typeof window !== 'undefined') {
+    const simulatedEnv = localStorage.getItem('devlogger-simulated-env');
+    if (simulatedEnv === 'development' || simulatedEnv === 'production') {
+      return simulatedEnv;
+    }
+  }
+
   // Detección basada en navegador en tiempo de ejecución
   if (typeof window !== 'undefined') {
     const host = window.location.hostname
