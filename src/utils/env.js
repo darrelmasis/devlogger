@@ -18,7 +18,8 @@ if (typeof window !== 'undefined') {
   
   // Si estamos en GitHub Pages y NO hay simulación configurada,
   // establecer 'development' por defecto para mostrar la demo
-  if (isGitHubPages && !hasSimulation) {
+  // Nota: Si el usuario eligió 'auto', respetamos esa decisión
+  if (isGitHubPages && hasSimulation === null) {
     localStorage.setItem('devlogger-simulated-env', 'development');
   }
 }
@@ -27,7 +28,11 @@ export const detectEnv = () => {
   // Primero verifica si hay un entorno simulado en localStorage (para demo)
   if (typeof window !== 'undefined') {
     const simulatedEnv = localStorage.getItem('devlogger-simulated-env');
-    if (simulatedEnv === 'development' || simulatedEnv === 'production') {
+    
+    // Si el usuario eligió explícitamente 'auto', saltamos la simulación
+    if (simulatedEnv === 'auto') {
+      // No hacer nada, continuar con la detección automática normal
+    } else if (simulatedEnv === 'development' || simulatedEnv === 'production') {
       return simulatedEnv;
     }
   }

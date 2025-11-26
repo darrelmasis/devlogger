@@ -12,7 +12,7 @@ function App() {
   const [simulatedEnv, setSimulatedEnv] = useState(() => {
     // La lógica de simulación automática en GitHub Pages
     // está en env.js y se ejecuta antes de que React se monte
-    return localStorage.getItem('devlogger-simulated-env') || '';
+    return localStorage.getItem('devlogger-simulated-env') || 'auto';
   });
 
   // Get current environment (simulated or real)
@@ -20,17 +20,10 @@ function App() {
 
   const handleEnvChange = (e) => {
     const value = e.target.value;
-    if (value === '') {
-      // Reset to auto-detect
-      setSimulatedEnv('');
-      localStorage.removeItem('devlogger-simulated-env');
-      window.location.reload();
-    } else {
-      // Set simulated environment
-      setSimulatedEnv(value);
-      localStorage.setItem('devlogger-simulated-env', value);
-      window.location.reload();
-    }
+    // Siempre establecemos un valor en localStorage
+    setSimulatedEnv(value);
+    localStorage.setItem('devlogger-simulated-env', value);
+    window.location.reload();
   };
 
   // ✅ Prueba: log en el cuerpo del componente
@@ -167,7 +160,7 @@ function App() {
             onChange={handleEnvChange}
             className="demo-env-select"
           >
-            <option value="">Auto-detectar</option>
+            <option value="auto">Auto-detectar</option>
             <option value="development">Development</option>
             <option value="production">Production</option>
           </select>
