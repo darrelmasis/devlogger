@@ -176,6 +176,83 @@ body {
   box-shadow: 0 4px 16px rgba(90, 122, 184, 0.2);
 }
 
+/* Quick Start Section */
+.demo-quick-start {
+  margin: 48px 0;
+  text-align: center;
+}
+
+.demo-quick-start h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--demo-text-primary);
+  margin-bottom: 32px;
+}
+
+.demo-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+.demo-step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  text-align: left;
+  background: var(--demo-card-bg);
+  padding: 24px;
+  border-radius: var(--demo-border-radius);
+  border: 1px solid var(--demo-card-border);
+  transition: var(--demo-transition);
+}
+
+.demo-step:hover {
+  border-color: var(--demo-accent-blue);
+  transform: translateY(-2px);
+}
+
+.demo-step-number {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--demo-accent-blue) 0%, var(--demo-accent-green) 100%);
+  color: #ffffff;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.demo-step-content {
+  flex: 1;
+}
+
+.demo-step-content h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--demo-text-primary);
+  margin-bottom: 8px;
+}
+
+.demo-step-content code {
+  display: block;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  color: var(--logo-green);
+  white-space: pre-wrap;
+  word-break: break-all;
+  line-height: 1.4;
+  margin-top: 8px;
+}
+
 .demo-env-controls {
   display: flex;
   align-items: center;

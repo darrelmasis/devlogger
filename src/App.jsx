@@ -161,7 +161,7 @@ function App() {
           >
             <span className="demo-cta-icon">📦</span>
             <span className="demo-cta-text">
-              <span className="demo-cta-label">Instalar v0.4.0 (latest)</span>
+              <span className="demo-cta-label">Instalar v0.4.1 (latest)</span>
               <span className="demo-cta-command">npm install @darelmasis/devlogger</span>
             </span>
           </a>
@@ -191,6 +191,33 @@ function App() {
           </select>
         </div>
       </header>
+
+      <section className="demo-quick-start">
+        <h2>🚀 Inicio Rápido</h2>
+        <div className="demo-steps">
+          <div className="demo-step">
+            <div className="demo-step-number">1</div>
+            <div className="demo-step-content">
+              <h3>Instalar paquete</h3>
+              <code>npm install @darelmasis/devlogger</code>
+            </div>
+          </div>
+          <div className="demo-step">
+            <div className="demo-step-number">2</div>
+            <div className="demo-step-content">
+              <h3>Configurar en tu App</h3>
+              <code>{'import { LoggerProvider, LoggerDisplay } from "@darelmasis/devlogger"'}</code>
+            </div>
+          </div>
+          <div className="demo-step">
+            <div className="demo-step-number">3</div>
+            <div className="demo-step-content">
+              <h3>Usar en cualquier lugar</h3>
+              <code>{'import { log } from "@darelmasis/devlogger"\nlog.info("¡Funciona!")'}</code>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="demo-cards-wrapper">
         <div className="demo-card">
@@ -273,7 +300,7 @@ function App() {
         </div>
 
         <div className="demo-footer-bottom">
-          <p>© 2025 DevLogger • Licencia MIT • v0.3.9</p>
+          <p>© 2025 DevLogger • Licencia MIT • v0.4.1</p>
         </div>
       </footer>
     </div>
