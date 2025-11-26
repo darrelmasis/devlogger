@@ -5,6 +5,28 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.4.1] - 2025-11-25
+
+### Mejorado 🚀
+- **Demo de GitHub Pages**: Configurada demo pública en https://darrelmasis.github.io/devlogger/
+  - Header CTA con versión y botones de instalación/repositorio
+  - Botones igualados en altura para mejor apariencia
+  - Simulación automática de entorno 'development' en GitHub Pages
+- **Documentación mejorada**: README actualizado con enlace a demo en vivo
+  - Lista de características simplificada y reorganizada
+  - Enlaces corregidos al repositorio correcto
+  - Documentación de detección de entorno actualizada
+
+### Corregido 🔧
+- **Lógica de auto-detección**: Uso de valor 'auto' en lugar de eliminar localStorage
+  - Evita loops infinitos en la simulación de entorno
+  - Los usuarios pueden volver a auto-detección sin problemas
+
+### Técnico
+- Agregado `vite.config.demo.js` para build de demo separado
+- Scripts `build:demo`, `preview:demo` y `deploy` para GitHub Pages
+- Directorios `dist-demo/` agregado a `.gitignore`
+
 ## [0.4.0] - 2025-11-25
 
 ### Agregado ✨
