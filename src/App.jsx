@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { log } from './core/LoggerCore'
 import './App.css';
-import ErrorSimulator from './components/ErrorSimulator';
 
 // ✅ Prueba: log en el cuerpo del componente (NO debe causar re-renders infinitos)
 log.info('Componente App renderizando')
@@ -89,6 +88,19 @@ function App() {
     }, 100)
   }
 
+  const testLogGrouping = () => {
+    log.clear()
+    log.info('Test message 1')
+    log.info('Test message 1')
+    log.info('Test message 1')
+    log.warn('Warning message')
+    log.warn('Warning message')
+    log.error('Error message')
+    log.info('Different message')
+    log.success('Success message')
+    log.success('Success message')
+  }
+
   const clearAllLogs = () => {
     log.clear()
   }
@@ -105,6 +117,10 @@ function App() {
         
         <button onClick={testAllLevels} style={{ marginLeft: '10px' }}>
           Probar Todos los Niveles
+        </button>
+        
+        <button onClick={testLogGrouping} style={{ marginLeft: '10px' }}>
+          Probar Agrupación de Logs
         </button>
         
         <button onClick={clearAllLogs} style={{ marginLeft: '10px' }}>
@@ -152,7 +168,6 @@ function App() {
         <p>✅ Captura automática de errores habilitada</p>
         <p>Entorno: <strong>{log.env}</strong></p>
       </div>
-      <ErrorSimulator />
     </div>
   )
 }

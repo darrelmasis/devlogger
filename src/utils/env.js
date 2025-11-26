@@ -1,20 +1,20 @@
 /**
- * Detects the current environment at RUNTIME.
+ * Detecta el entorno actual en TIEMPO DE EJECUCIÓN.
  * 
- * IMPORTANT: For libraries, we can't rely on import.meta.env because those values
- * are replaced at library build-time, not consumer build-time. This means any
- * import.meta.env.* check will always return the value from when the library was built.
+ * IMPORTANTE: Para librerías, no podemos confiar en import.meta.env porque esos valores
+ * se reemplazan en el tiempo de compilación de la librería, no en el del consumidor.
+ * Esto significa que cualquier chequeo import.meta.env.* siempre devolverá el valor de cuando se construyó la librería.
  * 
- * Instead, we use browser-based runtime detection using window.location.hostname.
+ * En su lugar, usamos detección en tiempo de ejecución basada en el navegador usando window.location.hostname.
  * 
- * @returns {'development' | 'production'} Current environment
+ * @returns {'development' | 'production'} Entorno actual
  */
 export const detectEnv = () => {
-  // Runtime browser-based detection
+  // Detección basada en navegador en tiempo de ejecución
   if (typeof window !== 'undefined') {
     const host = window.location.hostname
     
-    // Development indicators - localhost and local IPs
+    // Indicadores de desarrollo - localhost e IPs locales
     if (host === 'localhost' || 
         host === '127.0.0.1' || 
         host.startsWith('192.168.') ||
@@ -23,7 +23,7 @@ export const detectEnv = () => {
       return 'development'
     }
     
-    // Check for common development/preview/staging indicators in hostname
+    // Verifica indicadores comunes de desarrollo/preview/staging en el hostname
     if (host.includes('localhost') || 
         host.includes('dev.') || 
         host.includes('-dev.') ||
@@ -35,19 +35,19 @@ export const detectEnv = () => {
       return 'development'
     }
     
-    // Everything else is production
+    // Todo lo demás es producción
     return 'production'
   }
   
-  // SSR or non-browser environment - default to development to be safe
-  // (better to show logs than hide them in development)
+  // SSR o entorno no navegador - por defecto desarrollo por seguridad
+  // (mejor mostrar logs que ocultarlos en desarrollo)
   return 'development'
 }
 
 /**
- * Helper function to check if current environment is production.
- * Call this at runtime, not at module initialization.
+ * Función auxiliar para verificar si el entorno actual es producción.
+ * Llama a esto en tiempo de ejecución, no en la inicialización del módulo.
  * 
- * @returns {boolean} True if in production environment
+ * @returns {boolean} True si está en entorno de producción
  */
 export const getIsProd = () => detectEnv() === 'production'

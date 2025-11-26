@@ -3,7 +3,7 @@ import { getIsProd, detectEnv } from '../utils/env'
 class LoggerCore {
   constructor() {
     this.listeners = []
-    // Removed: this.isProd - we check at runtime for each log instead
+    // Eliminado: this.isProd - verificamos en tiempo de ejecución para cada log
   }
 
   subscribe(callback) {
@@ -19,7 +19,7 @@ class LoggerCore {
   }
 
   addLog(level, ...args) {
-    // Check production status at runtime for each log
+    // Verifica el estado de producción en tiempo de ejecución para cada log
     const isProd = getIsProd()
     
     // Convierte los niveles personalizados a métodos válidos de console
@@ -28,17 +28,17 @@ class LoggerCore {
                          level === 'warn' ? 'warn' :
                          level === 'error' ? 'error' : 'log'
     
-    // In production: only log.force() goes to console, nothing to visual display
+    // En producción: solo log.force() va a la consola, nada a la visualización
     if (isProd) {
       if (level === 'force') {
-        // Force logs always go to console, even in production
+        // Los logs forzados siempre van a la consola, incluso en producción
         console[consoleMethod](...args)
       }
-      // Don't emit to visual display in production
+      // No emitir a la visualización en producción
       return
     }
     
-    // In development: all logs go to console AND visual display
+    // En desarrollo: todos los logs van a la consola Y a la visualización
     // Pasa los argumentos directamente a console para mantener la inspección de objetos
     console[consoleMethod](...args)
     
@@ -72,7 +72,7 @@ class LoggerCore {
       timestamp: new Date()
     }
     
-    // Emite el evento a todos los suscriptores (only in development)
+    // Emite el evento a todos los suscriptores (solo en desarrollo)
     this.emit(logEntry)
   }
 
@@ -95,7 +95,7 @@ log.error   = (...args) => loggerCore.addLog('error', '[ERROR]', ...args)
 log.force   = (...args) => loggerCore.addLog('force', '[FORCE]', ...args)
 log.clear   = () => loggerCore.clear()
 
-// Make log.env a getter so it always returns the current environment dynamically
+// Hace que log.env sea un getter para que siempre devuelva el entorno actual dinámicamente
 Object.defineProperty(log, 'env', {
   get: () => detectEnv(),
   enumerable: true,

@@ -7,23 +7,27 @@ const LoggerContext = createContext()
 export const LoggerProvider = ({ children }) => {
   const [logs, setLogs] = useState([])
   
-  // Call getIsProd directly - it's a cheap runtime check
-  // No need to memoize since environment won't change during app lifetime
+  // Llama a getIsProd directamente - es una verificación rápida en tiempo de ejecución
+  // No es necesario memorizar ya que el entorno no cambiará durante la vida de la app
   const isProd = getIsProd()
 
   // Se suscribe a los eventos del logger
   useEffect(() => {
-    // Don't subscribe to logs in production (except force logs)
+    // No suscribirse a logs en producción (excepto logs forzados)
     if (isProd) return
     
     const unsubscribe = loggerCore.subscribe((logEntry) => {
-      if (logEntry.type === 'clear') {
-        setLogs([])
-      } else {
-        // In production, only add force logs
-        // But since we already return early if isProd, this shouldn't execute
-        setLogs(prev => [...prev, logEntry])
-      }
+      // Usa queueMicrotask para diferir actualizaciones de estado y evitar warning de React
+      // sobre actualizar un componente mientras se renderiza otro
+      queueMicrotask(() => {
+        if (logEntry.type === 'clear') {
+          setLogs([])
+        } else {
+          // En producción, solo agregar logs forzados
+          // Pero como ya retornamos si esProd, esto no debería ejecutarse
+          setLogs(prev => [...prev, logEntry])
+        }
+      })
     })
 
     // Limpia la suscripción al desmontar el componente

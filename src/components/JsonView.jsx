@@ -58,7 +58,7 @@ export const JsonView = ({ data, level = 0, isDarkMode = true, collapsed, onTogg
     )
   }
 
-  // Objects
+  // Objetos
   if (type === 'object') {
     const entries = Object.entries(data)
     if (entries.length === 0) return <span>{'{}'}</span>
