@@ -5,6 +5,15 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.4.3] - 2025-11-25
+
+### Mejorado 🚀
+- **Guía de inicio rápido mejorada**: 
+  - Bloques de código con mejor formato y espaciado
+  - Botón de copiar al portapapeles para cada paso
+  - Diseño más limpio y legible
+- **Versiones sincronizadas**: Demo actualizada a v0.4.3 para coincidir con el paquete npm
+
 ## [0.4.2] - 2025-11-25
 
 ### Mejorado 🚀
