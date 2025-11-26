@@ -149,8 +149,6 @@ function App() {
         <img src={LogoLight} alt="Dev Logger" className="demo-logo demo-logo-light" />
         <img src={LogoDark} alt="Dev Logger" className="demo-logo demo-logo-dark" />
         
-        <div className="demo-version-badge">v0.4.0</div>
-        
         <h1>DevLogger Demo</h1>
         <p>Explora los niveles de log, agrupación y captura automática de errores.</p>
         

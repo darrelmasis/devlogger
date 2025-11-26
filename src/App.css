@@ -124,6 +124,7 @@ body {
   transition: var(--demo-transition);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   cursor: pointer;
+  min-height: 68px; /* Asegura que ambos botones tengan la misma altura */
 }
 
 .demo-cta-icon {
