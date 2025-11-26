@@ -115,8 +115,8 @@ body {
 .demo-cta-secondary {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 14px 32px;
+  gap: 12px;
+  padding: 14px 24px;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
@@ -124,6 +124,32 @@ body {
   transition: var(--demo-transition);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   cursor: pointer;
+}
+
+.demo-cta-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.demo-cta-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.demo-cta-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.demo-cta-command {
+  font-size: 0.75rem;
+  font-weight: 400;
+  opacity: 0.9;
+  font-family: 'Consolas', 'Monaco', monospace;
+  letter-spacing: -0.3px;
 }
 
 .demo-cta-primary {

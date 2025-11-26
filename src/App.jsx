@@ -161,7 +161,11 @@ function App() {
             rel="noopener noreferrer"
             className="demo-cta-primary"
           >
-            📦 Instalar desde npm
+            <span className="demo-cta-icon">📦</span>
+            <span className="demo-cta-text">
+              <span className="demo-cta-label">Instalar v0.4.0 (latest)</span>
+              <span className="demo-cta-command">npm install @darelmasis/devlogger</span>
+            </span>
           </a>
           <a 
             href="https://github.com/darrelmasis/devlogger" 
