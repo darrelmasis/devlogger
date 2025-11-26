@@ -5,11 +5,24 @@ import { getIsProd } from '../utils/env'
 const LoggerContext = createContext()
 
 export const LoggerProvider = ({ children }) => {
-  const [logs, setLogs] = useState([])
+  // Inicializa con los logs que ya existen (captura logs tempranos)
+  const [logs, setLogs] = useState(() => loggerCore.getLogs())
   
   // Llama a getIsProd directamente - es una verificación rápida en tiempo de ejecución
   // No es necesario memorizar ya que el entorno no cambiará durante la vida de la app
   const isProd = getIsProd()
+
+  // Re-sincroniza con loggerCore para capturar logs emitidos durante el render inicial
+  // Esto asegura que los logs agregados antes de que se establezca la suscripción sean capturados
+  useEffect(() => {
+    if (isProd) return
+    
+    // Re-sincroniza con loggerCore para capturar cualquier log agregado durante el render inicial
+    const existingLogs = loggerCore.getLogs()
+    if (existingLogs.length > 0) {
+      setLogs(existingLogs)
+    }
+  }, [isProd]) // Se ejecuta solo una vez al montar
 
   // Se suscribe a los eventos del logger
   useEffect(() => {

@@ -3,7 +3,7 @@ import { log } from './core/LoggerCore';
 import './App.css';
 import LogoLight from './assets/dev-logger.svg';
 import LogoDark from './assets/dev-logger-dark.svg';
-
+import Icon from './components/Icons'
 // ✅ Prueba: log en el cuerpo del componente (NO debe causar re-renders infinitos)
 log.info('Componente App renderizando');
 
@@ -169,7 +169,7 @@ function App() {
           >
             <span className="demo-cta-icon">📦</span>
             <span className="demo-cta-text">
-              <span className="demo-cta-label">Instalar v0.4.4 (latest)</span>
+              <span className="demo-cta-label">Instalar v0.4.5 (latest)</span>
               <span className="demo-cta-command">npm install @darelmasis/devlogger</span>
             </span>
           </a>
@@ -212,7 +212,7 @@ function App() {
                 onClick={() => copyToClipboard('npm install @darelmasis/devlogger', 1)}
                 title="Copiar comando"
               >
-                {copiedStep === 1 ? '✓' : '📋'}
+                {copiedStep === 1 ? '✓' : <Icon name="copy" />}
               </button>
             </div>
             <div className="demo-code-block">
@@ -229,7 +229,7 @@ function App() {
                 onClick={() => copyToClipboard('import { LoggerProvider, LoggerDisplay } from "@darelmasis/devlogger"\n\nfunction App() {\n  return (\n    <LoggerProvider>\n      <YourApp />\n      <LoggerDisplay />\n    </LoggerProvider>\n  )\n}', 2)}
                 title="Copiar código"
               >
-                {copiedStep === 2 ? '✓' : '📋'}
+                {copiedStep === 2 ? '✓' : <Icon name="copy" />}
               </button>
             </div>
             <div className="demo-code-block">
@@ -246,7 +246,7 @@ function App() {
                 onClick={() => copyToClipboard('import { log } from "@darelmasis/devlogger"\n\nlog.info("¡Funciona!")\nlog.success("Usuario registrado")\nlog.error("Error al guardar")', 3)}
                 title="Copiar código"
               >
-                {copiedStep === 3 ? '✓' : '📋'}
+                {copiedStep === 3 ? '✓' : <Icon name="copy" />}
               </button>
             </div>
             <div className="demo-code-block">
@@ -337,7 +337,7 @@ function App() {
         </div>
 
         <div className="demo-footer-bottom">
-          <p>© 2025 DevLogger • Licencia MIT • v0.4.4</p>
+          <p>© 2025 DevLogger • Licencia MIT • v0.4.5</p>
         </div>
       </footer>
     </div>

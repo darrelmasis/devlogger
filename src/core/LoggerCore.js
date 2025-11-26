@@ -3,6 +3,7 @@ import { getIsProd, detectEnv } from '../utils/env'
 class LoggerCore {
   constructor() {
     this.listeners = []
+    this.logs = [] // Almacena historial de logs para suscriptores tardíos
     // Eliminado: this.isProd - verificamos en tiempo de ejecución para cada log
   }
 
@@ -12,6 +13,11 @@ class LoggerCore {
     return () => {
       this.listeners = this.listeners.filter(listener => listener !== callback)
     }
+  }
+
+  getLogs() {
+    // Retorna una copia del historial de logs
+    return [...this.logs]
   }
 
   emit(logEntry) {
@@ -72,12 +78,16 @@ class LoggerCore {
       timestamp: new Date()
     }
     
+    // Guarda en el historial (solo en desarrollo)
+    this.logs.push(logEntry)
+    
     // Emite el evento a todos los suscriptores (solo en desarrollo)
     this.emit(logEntry)
   }
 
   clear() {
     console.clear()
+    this.logs = [] // Limpia el historial
     this.emit({ type: 'clear' })
   }
 }
