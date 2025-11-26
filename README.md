@@ -7,26 +7,19 @@
 
 Una solución moderna y elegante para debugging en React que combina logging en consola con un panel visual interactivo. Se desactiva automáticamente en producción para mantener tu aplicación limpia.
 
-## Características
+**[🎮 Ver Demo en Vivo](https://darrelmasis.github.io/devlogger/)** | [📦 NPM](https://www.npmjs.com/package/@darelmasis/devlogger) | [🔗 GitHub](https://github.com/darrelmasis/devlogger)
 
-- **Panel visual collapsable** - Interfaz flotante no invasiva que se minimiza en un círculo
-- **Efecto translúcido** - Panel con backdrop blur para un aspecto moderno y elegante
+## Características Principales
+
+- **Panel visual flotante** - Interfaz no invasiva que se minimiza en un círculo con contador de logs
 - **Panel fijable** - Fija el panel para que no se cierre al hacer click fuera
-- **Persistencia de estado** - Recuerda tema, estado fijado y si estaba abierto/cerrado
-- **Click fuera para minimizar** - Cierra automáticamente el panel al hacer click fuera (si no está fijado)
-- **Scroll automático** - Desplazamiento suave al último log cuando llega uno nuevo
-- **Acordeón de logs** - Solo un log expandido a la vez para mejor enfoque
+- **Tema claro/oscuro** - Alterna entre temas con persistencia
 - **Agrupación de logs** - Logs idénticos se agrupan automáticamente con contador (×N)
-- **Tema claro/oscuro** - Alterna entre temas con persistencia en localStorage
 - **Objetos JSON interactivos** - Expande y colapsa objetos complejos como en DevTools
-- **Copiar logs** - Copia cualquier log al clipboard con un click
-- **Limpiar logs** - Elimina todos los logs fácilmente
+- **Captura automática de errores** - Captura errores no manejados y promesas rechazadas
 - **Auto-detección de entorno** - Se desactiva automáticamente en producción
-- **Simulación de entorno** - Simula production/development para testing sin deploy
-- **Captura automática de errores** - Captura errores no manejados, promesas rechazadas y más
-- **Ligera** - Solo ~18KB (gzipped: ~5KB)
 - **Manejo de objetos circulares** - Soporta objetos complejos como `window`
-- **Colores de alto contraste** - Success (verde), Info (azul), Warning (naranja), Error (rojo), Force (morado)
+- **Ligera y rápida** - Solo ~18KB (gzipped: ~5KB)
 
 ## Instalación
 
@@ -236,26 +229,22 @@ log.clear() // Elimina todos los logs
 
 ## Detección de Entorno
 
-La librería detecta automáticamente el entorno usando la siguiente prioridad:
+La librería detecta automáticamente el entorno en **tiempo de ejecución** basándose en el hostname del navegador:
 
-1. Variable `VITE_APP_ENV` (si está definida)
-2. Variable `import.meta.env.MODE` de Vite
-3. Hostname del navegador:
-   - `localhost` o `127.0.0.1` → `development`
-   - Otros → `production`
-4. Por defecto: `development`
+**Entorno Development:**
+- `localhost`, `127.0.0.1`
+- IPs locales: `192.168.*`, `10.*`, `*.local`
+- Subdominios comunes: `dev.`, `-dev.`, `preview`, `staging`, `test`
 
-### Configuración manual del entorno
+**Entorno Production:**
+- Todo lo demás (dominios de producción)
 
-Si usas Vite, puedes configurar el entorno en tu `.env`:
+### Comportamiento por Entorno
 
-```bash
-# .env.development
-VITE_APP_ENV=development
+- **Development**: Logger visible, todos los logs se muestran
+- **Production**: Logger oculto, solo `.force()` logs van a consola
 
-# .env.production
-VITE_APP_ENV=production
-```
+El logger se desactiva automáticamente en producción sin configuración adicional.
 
 ## Características Avanzadas
 
@@ -349,12 +338,13 @@ Las contribuciones son bienvenidas. Por favor:
 
 MIT © [Darel Masis](https://github.com/darrelmasis)
 
-## Links
+## Enlaces
 
-- [NPM Package](https://www.npmjs.com/package/@darelmasis/devlogger)
-- [GitHub Repository](https://github.com/darrelmasis/logger)
-- [Report Issues](https://github.com/darrelmasis/logger/issues)
+- [🎮 Demo en Vivo](https://darrelmasis.github.io/devlogger/)
+- [📦 NPM Package](https://www.npmjs.com/package/@darelmasis/devlogger)
+- [🔗 GitHub Repository](https://github.com/darrelmasis/devlogger)
+- [🐛 Reportar Issues](https://github.com/darrelmasis/devlogger/issues)
 
 ---
 
-Hecho por [Darel Masis](https://github.com/darrelmasis)
+Hecho con ❤️ por [Darel Masis](https://github.com/darrelmasis)
