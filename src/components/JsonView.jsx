@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import Icon from './Icons'
 
-const arrowDown = <Icon name="chevron-down" size="xs" />
-const arrowRight = <Icon name="chevron-right" size="xs" />
-
 export const JsonView = ({ data, level = 0, isDarkMode = true, collapsed, onToggle }) => {
   const [internalCollapsed, setInternalCollapsed] = useState(true)
+  
+  // Constantes JSX dentro del componente
+  const arrowDown = <Icon name="chevron-down" size="xs" />
+  const arrowRight = <Icon name="chevron-right" size="xs" />
   
   const isCollapsed = collapsed !== undefined ? collapsed : internalCollapsed
   const handleToggle = (e) => {

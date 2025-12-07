@@ -202,7 +202,8 @@ export const LoggerDisplay = () => {
   const getPanelPosition = (cornerPos) => {
     const isMobile = window.innerWidth <= 480
     const margin = isMobile ? 8 : 20
-    const panelWidth = isMobile ? window.innerWidth - 16 : 400
+    const panelWidth = isMobile ? window.innerWidth - 16 : window.innerWidth - 40
+    const panelHeight = window.innerHeight * 0.7 // 70vh como en el CSS
     
     // El panel se posiciona en la misma esquina que la burbuja, pero encima
     switch (cornerPos) {
@@ -211,10 +212,10 @@ export const LoggerDisplay = () => {
       case 'top-right':
         return { top: margin, left: window.innerWidth - panelWidth - margin }
       case 'bottom-left':
-        return { top: window.innerHeight - (isMobile ? window.innerHeight * 0.7 : 600) - margin, left: margin }
+        return { top: window.innerHeight - panelHeight - margin, left: margin }
       case 'bottom-right':
       default:
-        return { top: window.innerHeight - (isMobile ? window.innerHeight * 0.7 : 600) - margin, left: window.innerWidth - panelWidth - margin }
+        return { top: window.innerHeight - panelHeight - margin, left: window.innerWidth - panelWidth - margin }
     }
   }
 
