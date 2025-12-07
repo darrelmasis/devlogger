@@ -5,6 +5,47 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.4.7] - 2025-12-06
+
+### Agregado ✨
+- **Sistema de 4 esquinas**: La burbuja del logger ahora puede posicionarse en cualquiera de las 4 esquinas de la pantalla
+  - Auto-snap a la esquina más cercana al soltar
+  - Persistencia de la posición seleccionada en localStorage
+  - Botón de reset para volver a la posición por defecto (bottom-right)
+- **Drag & Drop visual**: Preview en tiempo real mientras arrastras la burbuja
+  - La burbuja sigue al cursor durante el arrastre
+  - Animación suave al soltar hacia la esquina más cercana
+  - Límites de pantalla para evitar que la burbuja se salga
+  - Detección inteligente de drag vs click (umbral de 5px)
+
+### Mejorado 🚀
+- **Panel posicionado sobre la burbuja**: El panel ahora se abre en la misma esquina que la burbuja, cubriéndola
+  - Mejor uso del espacio en pantalla
+  - Comportamiento más intuitivo y predecible
+- **Animaciones CSS optimizadas**: Transiciones suaves usando solo `top/left` para compatibilidad
+  - Animación de 300ms con curva `ease-out`
+  - Sin parpadeos ni saltos visuales
+  - Funciona correctamente en todas las esquinas
+- **Header del panel simplificado**: 
+  - Eliminado color de fondo del header para diseño más limpio
+  - Agregado `overflow: hidden` al panel para border-radius automático
+  - Solo borde inferior en el header para separación visual
+
+### Corregido 🔧
+- **Transiciones CSS**: Corregido problema donde las animaciones solo funcionaban en top-left
+  - Todas las posiciones ahora usan `top/left` en lugar de mezclar con `bottom/right`
+  - CSS puede animar correctamente entre posiciones
+- **Parpadeo al soltar**: Eliminado parpadeo visual al cambiar de esquina
+  - Orden correcto de actualización de estados
+  - Timing optimizado para transiciones suaves
+
+### Técnico 🔧
+- Eliminada dependencia de Floating UI (simplificación del código)
+- Posicionamiento manual con cálculos simples y predecibles
+- Uso consistente de `top/left` para todas las posiciones
+- Estado `dragPosition` para preview durante drag
+- Función `getClosestCorner()` para cálculo de esquina más cercana
+
 ## [0.4.6] - 2025-12-02
 
 ### Agregado ✨

@@ -84,26 +84,32 @@ $clear-button-hover: #ff6464;
 $border-white: #ffffff;
 
 // ===============================
-// Botón colapsado
+// Botón colapsado (Mobile First)
 // ===============================
 .logger-collapsed {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
+  // top y left se manejan via inline styles
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 99999;
-  font-size: 20px;
+  font-size: 22px;
   color: $dark-text;
   font-weight: bold;
-  transition: transform 0.1s;
+  transition: transform 0.1s, box-shadow 0.2s;
 
   &:hover { transform: scale(1.1); }
+
+  &.logger-dragging {
+    cursor: grabbing;
+    user-select: none;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+  }
 
   // La burbuja mantiene el mismo color siempre (no cambia con logs)
   &.logger-dark {
@@ -118,17 +124,17 @@ $border-white: #ffffff;
 
   .logger-badge {
     position: absolute;
-    top: -6px;
-    right: -6px;
+    top: -4px;
+    right: -4px;
     background: linear-gradient(135deg, $badge-bg-gradient-start 0%, $badge-bg-gradient-end 100%);
     color: $badge-text;
     border-radius: 12px;
-    min-width: 20px;
-    height: 20px;
+    min-width: 22px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     padding: 0 6px;
     box-shadow: 0 3px 12px $badge-shadow-color, 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -136,11 +142,27 @@ $border-white: #ffffff;
     letter-spacing: -0.3px;
     z-index: 1;
     transition: transform 0.2s, box-shadow 0.2s;
+    pointer-events: none;
 
     // Efecto hover sutil
     .logger-collapsed:hover & {
       transform: scale(1.1);
       box-shadow: 0 4px 16px rgba(76, 175, 80, 0.5), 0 2px 4px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  // Tablet y superior
+  @media (min-width: 481px) {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+
+    .logger-badge {
+      top: -6px;
+      right: -6px;
+      min-width: 20px;
+      height: 20px;
+      font-size: 11px;
     }
   }
 }
@@ -158,21 +180,20 @@ $border-white: #ffffff;
 }
 
 // ===============================
-// Panel expandido
+// Panel expandido (Mobile First)
 // ===============================
 .logger-panel {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 400px;
-  max-height: 50vh;
+  // Floating UI maneja el posicionamiento
+  width: calc(100% - 16px);
+  max-width: calc(100% - 16px);
+  max-height: 70vh;
   font-family: monospace;
-  font-size: 12px;
-  border-radius: 8px;
-  z-index: 99999;
+  font-size: 10px;
+  border-radius: 12px;
+  z-index: 99998; // Justo debajo de la burbuja (99999)
   display: flex;
   flex-direction: column;
-  overflow: visible;
+  overflow: hidden; // Para que el border-radius funcione
 
   &.logger-dark {
     background-color: $dark-bg;
@@ -190,25 +211,32 @@ $border-white: #ffffff;
     justify-content: space-between;
     align-items: center;
     padding: 10px 12px;
+    border-bottom: 1px solid;
 
     &.logger-dark {
-      background-color: $dark-header-bg;
-      border-bottom: 1px solid $dark-border;
+      border-bottom-color: $dark-border;
     }
     &.logger-light {
-      background-color: $light-header-bg;
-      border-bottom: 1px solid $light-border;
+      border-bottom-color: $light-border;
     }
 
     .logger-title {
       font-weight: bold;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 4px;
+      font-size: 12px;
+      min-width: 0;
+      flex-shrink: 1;
+
+      span {
+        white-space: nowrap;
+      }
     }
     .logger-buttons {
       display: flex;
-      gap: 8px;
+      gap: 4px;
+      flex-shrink: 0;
     }
   }
 
@@ -218,8 +246,8 @@ $border-white: #ffffff;
     cursor: pointer;
     font-size: 16px;
     padding: 0;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -261,7 +289,7 @@ $border-white: #ffffff;
   .logger-btn-separator {
     width: 1px;
     height: 20px;
-    margin: 0 4px;
+    margin: 0 2px;
     &.logger-dark { background-color: $dark-separator; }
     &.logger-light { background-color: $light-separator; }
   }
@@ -272,6 +300,7 @@ $border-white: #ffffff;
     min-height: 80px;
     display: flex;
     flex-direction: column;
+    font-size: 10px;
 
     &::-webkit-scrollbar { width: 6px; }
     &::-webkit-scrollbar-track { background: transparent; }
@@ -299,10 +328,10 @@ $border-white: #ffffff;
   }
 
   .logger-item {
-    padding: 16px 16px 16px 4px;
+    padding: 10px 10px 10px 6px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
     cursor: pointer;
     transition: background-color 0.2s;
     position: relative;
@@ -342,13 +371,13 @@ $border-white: #ffffff;
 
   .logger-copy-btn {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 6px;
+    right: 6px;
     border: none;
     cursor: pointer;
     font-size: 12px;
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     border-radius: 4px;
     background: transparent;
     transition: background 0.2s;
@@ -365,7 +394,7 @@ $border-white: #ffffff;
   }
 
   .logger-timestamp {
-    font-size: 10px;
+    font-size: 8px;
     margin-bottom: 4px;
     font-family: monospace;
     &.logger-dark { color: $dark-muted; }
@@ -373,7 +402,7 @@ $border-white: #ffffff;
   }
 
   .logger-log-content {
-    padding-right: 30px;
+    padding-right: 32px;
     word-wrap: break-word;
     overflow-wrap: break-word;
     word-break: break-word;
@@ -382,6 +411,7 @@ $border-white: #ffffff;
     min-width: 0;
     display: block;
     width: 100%;
+    font-size: 10px;
 
     .logger-data-container { display: block; line-height: 1.5; }
     .logger-data-item-inline { display: inline; }
@@ -394,6 +424,7 @@ $border-white: #ffffff;
     font-family: monospace;
     display: block;
     width: 100%;
+    font-size: 10px;
 
     .json-arrow { 
       display: inline-block; 
@@ -403,7 +434,7 @@ $border-white: #ffffff;
       vertical-align: middle;
       line-height: 1;
     }
-    .json-indent { margin-left: 16px; display: block; margin-top: 4px; margin-bottom: 4px; }
+    .json-indent { margin-left: 10px; display: block; margin-top: 4px; margin-bottom: 4px; }
 
     &.logger-dark {
       .json-null { color: $json-dark-null; }
@@ -423,6 +454,163 @@ $border-white: #ffffff;
     }
   }
 
-  .logger-logo { width: 96px; }
+  .logger-logo { 
+    width: 70px; 
+    max-width: 70px;
+  }
+
+  .logger-group-count {
+    font-weight: bold;
+    opacity: 1;
+    font-size: 0.85em;
+    background-color: rgba(128,128,128,0.2);
+    padding: 0px 4px;
+    border-radius: 4px;
+    border: 1px solid rgba(128,128,128,0.3);
+    margin-left: 8px;
+  }
+
+  // Tablet (481px - 768px)
+  @media (min-width: 481px) {
+    width: 400px;
+    max-width: 400px;
+    max-height: 60vh;
+    font-size: 11px;
+
+    .logger-header {
+      padding: 12px 16px;
+
+      .logger-title {
+        font-size: 14px;
+        gap: 6px;
+      }
+
+      .logger-buttons {
+        gap: 6px;
+      }
+    }
+
+    .logger-btn {
+      width: 32px;
+      height: 32px;
+      font-size: 18px;
+    }
+
+    .logger-btn-separator {
+      margin: 0 4px;
+    }
+
+    .logger-content {
+      font-size: 11px;
+    }
+
+    .logger-item {
+      padding: 12px 12px 12px 8px;
+      gap: 6px;
+    }
+
+    .logger-timestamp {
+      font-size: 9px;
+    }
+
+    .logger-log-content {
+      padding-right: 36px;
+      font-size: 11px;
+    }
+
+    .logger-copy-btn {
+      width: 28px;
+      height: 28px;
+      font-size: 14px;
+    }
+
+    .logger-logo {
+      width: 80px;
+      max-width: 80px;
+    }
+
+    .logger-group-count {
+      font-size: 0.9em;
+      padding: 1px 5px;
+    }
+
+    .json-view {
+      font-size: 11px;
+      
+      .json-indent {
+        margin-left: 12px;
+      }
+    }
+  }
+
+  // Desktop (769px+)
+  @media (min-width: 769px) {
+    max-height: 50vh;
+    font-size: 12px;
+
+    .logger-header {
+      padding: 10px 12px;
+    }
+
+    .logger-btn {
+      width: 24px;
+      height: 24px;
+      font-size: 16px;
+
+      &.logger-btn-minimize { 
+        font-size: 18px; 
+      }
+    }
+
+    .logger-content {
+      font-size: 12px;
+    }
+
+    .logger-item {
+      padding: 16px 16px 16px 4px;
+      gap: 8px;
+    }
+
+    .logger-timestamp {
+      font-size: 10px;
+    }
+
+    .logger-log-content {
+      padding-right: 30px;
+      font-size: 12px;
+    }
+
+    .logger-copy-btn {
+      width: 32px;
+      height: 32px;
+      font-size: 12px;
+      top: 8px;
+      right: 8px;
+    }
+
+    .logger-logo {
+      width: 96px;
+      max-width: 96px;
+    }
+
+    .json-view {
+      font-size: 12px;
+      
+      .json-indent {
+        margin-left: 16px;
+      }
+    }
+  }
 }
 
+// Clase para el contador de grupos de logs
+.logger-group-count {
+  font-weight: bold;
+  opacity: 1;
+  font-size: 0.9em;
+  background-color: rgba(128,128,128,0.2);
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid rgba(128,128,128,0.3);
+  margin-left: 8px;
+}
