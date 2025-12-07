@@ -198,24 +198,26 @@ export const LoggerDisplay = () => {
     }
   }
 
-  // Obtener posición del panel según la esquina de la burbuja (siempre usa top/left)
+  // Obtener posición del panel según la esquina de la burbuja
   const getPanelPosition = (cornerPos) => {
     const isMobile = window.innerWidth <= 480
     const margin = isMobile ? 8 : 20
-    const panelWidth = isMobile ? window.innerWidth - 16 : window.innerWidth - 40
-    const panelHeight = window.innerHeight * 0.7 // 70vh como en el CSS
     
-    // El panel se posiciona en la misma esquina que la burbuja, pero encima
+    // En mobile el panel ocupa casi todo el ancho, en desktop tiene ancho fijo
+    // El CSS define: width: calc(100% - 16px) en mobile, sin max-width en desktop
+    // Asumimos un ancho de ~400px en desktop (el panel se ajusta con su CSS)
+    
+    // El panel se alinea según la esquina
     switch (cornerPos) {
       case 'top-left':
         return { top: margin, left: margin }
       case 'top-right':
-        return { top: margin, left: window.innerWidth - panelWidth - margin }
+        return { top: margin, right: margin }
       case 'bottom-left':
-        return { top: window.innerHeight - panelHeight - margin, left: margin }
+        return { bottom: margin, left: margin }
       case 'bottom-right':
       default:
-        return { top: window.innerHeight - panelHeight - margin, left: window.innerWidth - panelWidth - margin }
+        return { bottom: margin, right: margin }
     }
   }
 
@@ -400,7 +402,8 @@ export const LoggerDisplay = () => {
           position: 'fixed',
           ...bubblePosition,
           cursor: isDragging ? 'grabbing' : 'pointer',
-          display: isExpanded ? 'none' : 'flex',
+          visibility: isExpanded ? 'hidden' : 'visible',
+          pointerEvents: isExpanded ? 'none' : 'auto',
           transition: isDragging ? 'none' : 'all 0.3s ease-out'
         }}
         title={hasLogs ? `${groupedLogs.length} grupo(s) de logs` : 'Logger'}
@@ -420,7 +423,8 @@ export const LoggerDisplay = () => {
         style={{
           position: 'fixed',
           ...panelPosition,
-          display: isExpanded ? 'flex' : 'none'
+          visibility: isExpanded ? 'visible' : 'hidden',
+          pointerEvents: isExpanded ? 'auto' : 'none'
         }}
       >
       <div 

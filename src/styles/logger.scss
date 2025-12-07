@@ -183,7 +183,7 @@ $border-white: #ffffff;
 // Panel expandido (Mobile First)
 // ===============================
 .logger-panel {
-  // Floating UI maneja el posicionamiento
+  // Posicionamiento manual basado en esquinas
   width: calc(100% - 16px);
   max-width: calc(100% - 16px);
   max-height: 70vh;
