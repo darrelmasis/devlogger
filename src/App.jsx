@@ -169,7 +169,7 @@ function App() {
           >
             <span className="demo-cta-icon">📦</span>
             <span className="demo-cta-text">
-              <span className="demo-cta-label">Instalar v0.4.5 (latest)</span>
+              <span className="demo-cta-label">Instalar v0.4.7 (latest)</span>
               <span className="demo-cta-command">npm install @darelmasis/devlogger</span>
             </span>
           </a>
@@ -337,7 +337,7 @@ function App() {
         </div>
 
         <div className="demo-footer-bottom">
-          <p>© 2025 DevLogger • Licencia MIT • v0.4.5</p>
+          <p>© 2025 DevLogger • Licencia MIT • v0.4.7</p>
         </div>
       </footer>
     </div>
