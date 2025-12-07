@@ -12,6 +12,7 @@ Una solución moderna y elegante para debugging en React que combina logging en 
 ## Características Principales
 
 - **Panel visual flotante** - Interfaz no invasiva que se minimiza en un círculo con contador de logs
+- **Posicionamiento draggable** - Arrastra la burbuja o el panel a cualquier esquina de la pantalla
 - **Panel fijable** - Fija el panel para que no se cierre al hacer click fuera
 - **Tema claro/oscuro** - Alterna entre temas con persistencia
 - **Agrupación de logs** - Logs idénticos se agrupan automáticamente con contador (×N)
@@ -111,17 +112,27 @@ Componente visual que muestra los logs en un panel flotante interactivo.
 ```
 
 **Características del panel:**
-- **Estado colapsado**: Círculo pequeño en la esquina inferior derecha
+- **Estado colapsado**: Círculo pequeño con icono de código
   - Gris cuando no hay logs
   - Verde cuando hay logs (muestra el contador)
   - Click para expandir
+  - **Draggable**: Arrastra la burbuja a cualquier esquina de la pantalla (top-left, top-right, bottom-left, bottom-right)
+  - La posición se guarda automáticamente en localStorage
 - **Estado expandido**: Panel completo con:
   - Header con contador de logs (click en el header para minimizar)
+  - **Header draggable**: Arrastra desde el header para reposicionar el panel
+  - Animación suave al cambiar de esquina
+  - Botón para copiar todos los logs
   - Botón para alternar tema claro/oscuro
   - Botón para limpiar todos los logs
   - Botón para minimizar
   - Área scrolleable con todos los logs
-  - Botón de copiar en cada log
+  - Botón de copiar en cada log individual
+- **Posicionamiento inteligente**:
+  - Sistema de 4 esquinas con snap automático
+  - Animación diagonal suave al soltar
+  - El panel se alinea correctamente según la esquina (crece hacia arriba en bottom, hacia abajo en top)
+  - Sin selección de texto durante el drag
 - **Colores por nivel**:
   - Verde (#4caf50): `log.success()`
   - Azul (#2196f3): `log()` y `log.info()`

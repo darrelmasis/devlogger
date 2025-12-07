@@ -3,6 +3,7 @@ import { useLoggerContext } from '../context/LoggerContext'
 import { log } from '../core/LoggerCore'
 import { JsonView } from './JsonView'
 import { formatTime } from '../utils/utils'
+import { getClosestCorner, getBubblePosition, getPanelPosition, convertDragPosition } from '../utils/positioning'
 import '../styles/logger.scss'
 import Icon from './Icons'
 import LogoLight from '../assets/dev-logger-dark.svg'
@@ -153,7 +154,8 @@ export const LoggerDisplay = () => {
   const [expandedLogIndex, setExpandedLogIndex] = useState(null)
   const [copiedAll, setCopiedAll] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
-  const [dragPosition, setDragPosition] = useState(null) // Posición temporal durante drag
+  const [dragPosition, setDragPosition] = useState(null) // Posición temporal durante drag de burbuja
+  const [panelDragPosition, setPanelDragPosition] = useState(null) // Posición temporal durante drag de panel
   const [corner, setCorner] = useState(() => {
     if (isProd) return 'bottom-right'
     const savedCorner = localStorage.getItem('logger-corner')
@@ -166,60 +168,6 @@ export const LoggerDisplay = () => {
   const dragStartPosRef = useRef({ x: 0, y: 0 })
   const isDraggingRef = useRef(false)
 
-  // Función para obtener la esquina más cercana
-  const getClosestCorner = (x, y) => {
-    const centerX = window.innerWidth / 2
-    const centerY = window.innerHeight / 2
-    
-    const isLeft = x < centerX
-    const isTop = y < centerY
-    
-    if (isTop && isLeft) return 'top-left'
-    if (isTop && !isLeft) return 'top-right'
-    if (!isTop && isLeft) return 'bottom-left'
-    return 'bottom-right'
-  }
-
-  // Obtener posición de la burbuja según la esquina (siempre usa top/left para animaciones)
-  const getBubblePosition = (cornerPos) => {
-    const margin = window.innerWidth <= 480 ? 16 : 20
-    const bubbleSize = window.innerWidth <= 480 ? 56 : 50
-    
-    switch (cornerPos) {
-      case 'top-left':
-        return { top: margin, left: margin }
-      case 'top-right':
-        return { top: margin, left: window.innerWidth - bubbleSize - margin }
-      case 'bottom-left':
-        return { top: window.innerHeight - bubbleSize - margin, left: margin }
-      case 'bottom-right':
-      default:
-        return { top: window.innerHeight - bubbleSize - margin, left: window.innerWidth - bubbleSize - margin }
-    }
-  }
-
-  // Obtener posición del panel según la esquina de la burbuja
-  const getPanelPosition = (cornerPos) => {
-    const isMobile = window.innerWidth <= 480
-    const margin = isMobile ? 8 : 20
-    
-    // En mobile el panel ocupa casi todo el ancho, en desktop tiene ancho fijo
-    // El CSS define: width: calc(100% - 16px) en mobile, sin max-width en desktop
-    // Asumimos un ancho de ~400px en desktop (el panel se ajusta con su CSS)
-    
-    // El panel se alinea según la esquina
-    switch (cornerPos) {
-      case 'top-left':
-        return { top: margin, left: margin }
-      case 'top-right':
-        return { top: margin, right: margin }
-      case 'bottom-left':
-        return { bottom: margin, left: margin }
-      case 'bottom-right':
-      default:
-        return { bottom: margin, right: margin }
-    }
-  }
 
   // Actualizar posición cuando cambia la esquina
   useEffect(() => {
@@ -263,6 +211,8 @@ export const LoggerDisplay = () => {
       if (!isDraggingRef.current && (deltaX > 5 || deltaY > 5)) {
         isDraggingRef.current = true
         setIsDragging(true)
+        // Prevenir selección de texto durante el drag
+        document.body.style.userSelect = 'none'
       }
 
       if (isDraggingRef.current) {
@@ -305,6 +255,9 @@ export const LoggerDisplay = () => {
         setCorner(closestCorner)
         localStorage.setItem('logger-corner', closestCorner)
         
+        // Restaurar selección de texto
+        document.body.style.userSelect = ''
+        
         // Limpiar dragPosition después de un pequeño delay
         setTimeout(() => {
           setDragPosition(null)
@@ -322,10 +275,109 @@ export const LoggerDisplay = () => {
     document.addEventListener('touchend', handleEnd)
   }
 
-  const resetPosition = () => {
-    setCorner('bottom-right')
-    localStorage.setItem('logger-corner', 'bottom-right')
+  // Drag & drop del panel (desde el header)
+  const handlePanelDragStart = (e) => {
+    // Solo permitir drag desde el header, no desde botones
+    if (e.target.closest('button')) return
+    
+    const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
+    const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY
+    
+    dragStartPosRef.current = { x: clientX, y: clientY }
+    isDraggingRef.current = false
+    
+    const handleMove = (moveEvent) => {
+      const moveClientX = moveEvent.type.includes('touch') ? moveEvent.touches[0].clientX : moveEvent.clientX
+      const moveClientY = moveEvent.type.includes('touch') ? moveEvent.touches[0].clientY : moveEvent.clientY
+
+      const deltaX = Math.abs(moveClientX - dragStartPosRef.current.x)
+      const deltaY = Math.abs(moveClientY - dragStartPosRef.current.y)
+      
+      if (!isDraggingRef.current && (deltaX > 5 || deltaY > 5)) {
+        isDraggingRef.current = true
+        setIsDragging(true)
+        // Prevenir selección de texto durante el drag
+        document.body.style.userSelect = 'none'
+      }
+
+      if (isDraggingRef.current) {
+        moveEvent.preventDefault()
+        
+        // Calcular posición del panel siguiendo el cursor
+        const isMobile = window.innerWidth <= 480
+        const panelWidth = isMobile ? window.innerWidth - 16 : 400
+        
+        // Centrar el panel en el cursor (horizontalmente)
+        const left = moveClientX - (panelWidth / 2)
+        
+        // Aplicar límites solo para evitar que se salga de la pantalla
+        const minMargin = 8
+        const maxLeft = window.innerWidth - panelWidth - minMargin
+        const boundedLeft = Math.max(minMargin, Math.min(left, maxLeft))
+        
+        // Si el panel está en una esquina bottom, usar bottom en lugar de top
+        const isCurrentlyBottom = corner === 'bottom-left' || corner === 'bottom-right'
+        
+        if (isCurrentlyBottom) {
+          const bottom = window.innerHeight - moveClientY - 50
+          const maxBottom = window.innerHeight - 100
+          const boundedBottom = Math.max(minMargin, Math.min(bottom, maxBottom))
+          setPanelDragPosition({ bottom: boundedBottom, left: boundedLeft })
+        } else {
+          const top = moveClientY - 50 // Offset para que el cursor esté en el header
+          const maxTop = window.innerHeight - 100 // Dejar al menos 100px del panel visible
+          const boundedTop = Math.max(minMargin, Math.min(top, maxTop))
+          setPanelDragPosition({ top: boundedTop, left: boundedLeft })
+        }
+      }
+    }
+    
+    const handleEnd = (endEvent) => {
+      document.removeEventListener('mousemove', handleMove)
+      document.removeEventListener('mouseup', handleEnd)
+      document.removeEventListener('touchmove', handleMove)
+      document.removeEventListener('touchend', handleEnd)
+      
+      if (isDraggingRef.current) {
+        const finalX = endEvent.type.includes('touch') 
+          ? (endEvent.changedTouches?.[0]?.clientX || dragStartPosRef.current.x)
+          : endEvent.clientX
+        const finalY = endEvent.type.includes('touch')
+          ? (endEvent.changedTouches?.[0]?.clientY || dragStartPosRef.current.y)
+          : endEvent.clientY
+        
+        const closestCorner = getClosestCorner(finalX, finalY)
+        
+        // Convertir panelDragPosition para que use las mismas propiedades que la esquina destino
+        const convertedPosition = convertDragPosition(panelDragPosition, closestCorner)
+        if (convertedPosition) {
+          setPanelDragPosition(convertedPosition)
+        }
+        
+        // Actualizar esquina después de convertir la posición
+        setTimeout(() => {
+          setCorner(closestCorner)
+          localStorage.setItem('logger-corner', closestCorner)
+        }, 10)
+        
+        // Restaurar selección de texto
+        document.body.style.userSelect = ''
+        
+        // Limpiar panelDragPosition después de un pequeño delay
+        setTimeout(() => {
+          setPanelDragPosition(null)
+          setIsDragging(false)
+          isDraggingRef.current = false
+        }, 350)
+      }
+    }
+    
+    document.addEventListener('mousemove', handleMove)
+    document.addEventListener('mouseup', handleEnd)
+    document.addEventListener('touchmove', handleMove, { passive: false })
+    document.addEventListener('touchend', handleEnd)
   }
+
 
   useEffect(() => {
     if (isProd) return
@@ -402,8 +454,8 @@ export const LoggerDisplay = () => {
           position: 'fixed',
           ...bubblePosition,
           cursor: isDragging ? 'grabbing' : 'pointer',
-          visibility: isExpanded ? 'hidden' : 'visible',
-          pointerEvents: isExpanded ? 'none' : 'auto',
+          display: isExpanded ? 'none' : 'flex',
+          userSelect: 'none',
           transition: isDragging ? 'none' : 'all 0.3s ease-out'
         }}
         title={hasLogs ? `${groupedLogs.length} grupo(s) de logs` : 'Logger'}
@@ -416,19 +468,22 @@ export const LoggerDisplay = () => {
         )}
       </div>
 
-      {/* Panel - siempre renderizado pero oculto cuando no está expandido */}
-      <div 
-        ref={panelRef}
-        className={`logger-panel ${themeClass}`}
-        style={{
-          position: 'fixed',
-          ...panelPosition,
-          visibility: isExpanded ? 'visible' : 'hidden',
-          pointerEvents: isExpanded ? 'auto' : 'none'
-        }}
-      >
+      {/* Panel - solo renderizado cuando está expandido */}
+      {isExpanded && (
+        <div 
+          ref={panelRef}
+          className={`logger-panel ${themeClass}`}
+          style={{
+            position: 'fixed',
+            ...(panelDragPosition || panelPosition),
+            transition: isDragging ? 'none' : 'all 0.3s ease-out'
+          }}
+        >
       <div 
         className={`logger-header ${themeClass}`}
+        onMouseDown={handlePanelDragStart}
+        onTouchStart={handlePanelDragStart}
+        style={{ cursor: isDragging ? 'grabbing' : 'move', userSelect: 'none' }}
       >
         <span className="logger-title">
           <img 
@@ -464,18 +519,6 @@ export const LoggerDisplay = () => {
           <div className={`logger-btn-separator ${themeClass}`}></div>
 
           {/* Grupo 2: Configuración de vista */}
-          {corner !== 'bottom-right' && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                resetPosition()
-              }}
-              className={`logger-btn ${themeClass}`}
-              title="Restaurar posición"
-            >
-              <Icon name="arrow-rotate-left" size="sm" />
-            </button>
-          )}
           <button
             onClick={(e) => {
               e.stopPropagation()
@@ -535,6 +578,7 @@ export const LoggerDisplay = () => {
         )}
       </div>
     </div>
+    )}
     </>
   )
 }

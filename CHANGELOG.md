@@ -5,6 +5,57 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.5.0] - 2025-12-07
+
+### Agregado ✨
+- **Panel draggable**: Ahora puedes arrastrar el panel desde su header para reposicionarlo
+  - Drag & drop fluido con feedback visual en tiempo real
+  - Animación diagonal suave al soltar
+  - El panel se mueve contigo mientras arrastras
+- **Posicionamiento inteligente bidireccional**:
+  - Conversión automática de coordenadas según la esquina destino
+  - Animación diagonal perfecta en todas las direcciones (arriba ⬆️ y abajo ⬇️)
+  - El panel crece hacia arriba en esquinas bottom, hacia abajo en esquinas top
+- **Prevención de selección de texto durante drag**:
+  - No se selecciona texto del body mientras arrastras
+  - Burbuja y header del panel tienen `userSelect: none`
+  - Experiencia de drag más limpia y profesional
+- **Documentación completa**:
+  - Nueva sección en README sobre posicionamiento draggable
+  - Características detalladas del sistema de 4 esquinas
+  - Ejemplos de uso y comportamiento
+
+### Mejorado 🚀
+- **Refactorización completa del código**:
+  - Extraídas funciones de posicionamiento a `src/utils/positioning.js`
+  - Eliminadas 52 líneas de código duplicado en LoggerDisplay
+  - Mejor organización y separación de responsabilidades
+  - Código más mantenible y testeable
+- **Posicionamiento optimizado**:
+  - Panel usa `bottom` para esquinas bottom (crece hacia arriba correctamente)
+  - Panel usa `top` para esquinas top (crece hacia abajo correctamente)
+  - Límites mejorados para evitar que el panel se salga de la pantalla
+  - Drag inteligente que usa las mismas propiedades que la posición actual
+- **Animaciones suaves en todas las direcciones**:
+  - Transición CSS de 300ms con `ease-out`
+  - Se desactiva durante el drag para seguimiento fluido del cursor
+  - Se activa al soltar para animación suave a la esquina
+
+### Eliminado 🗑️
+- **Botón de restaurar posición**: Eliminado del header del panel
+  - Simplifica la interfaz
+  - El drag & drop hace innecesaria esta función
+
+### Técnico 🔧
+- Creado módulo `src/utils/positioning.js` con utilidades:
+  - `getClosestCorner(x, y)` - Detecta esquina más cercana
+  - `getBubblePosition(corner)` - Calcula posición de burbuja
+  - `getPanelPosition(corner)` - Calcula posición de panel
+  - `convertDragPosition(dragPos, corner)` - Convierte coordenadas para animación
+- Simplificada lógica de conversión de drag position
+- Eliminada dependencia de Floating UI (ya removida en 0.4.7)
+- Bundle: 106.29 kB (gzip: 20.94 kB)
+
 ## [0.4.7] - 2025-12-06
 
 ### Agregado ✨

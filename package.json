@@ -1,7 +1,7 @@
 {
   "name": "@darelmasis/devlogger",
   "private": false,
-  "version": "0.4.7",
+  "version": "0.5.0",
   "description": "Librería React ligera para logging visual en desarrollo con panel flotante",
   "type": "module",
   "main": "./dist/logger.cjs",
