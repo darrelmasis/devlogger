@@ -5,6 +5,13 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.5.1] - 2025-12-07
+
+### Documentación 📚
+- Verificada y confirmada documentación completa en README sobre posicionamiento draggable
+- Demo actualizado y desplegado en GitHub Pages
+- Asegurada sincronización entre código, documentación y demo
+
 ## [0.5.0] - 2025-12-07
 
 ### Agregado ✨
